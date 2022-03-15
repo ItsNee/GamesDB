@@ -5,7 +5,7 @@ include "head.inc.php";
 ?>
     <body id="page-top">
     <?php
-    include "nav.inc.php";
+    include "navPostLogin.inc.php";
     ?>
         <!-- Masthead header-->
         <header class="masthead">
@@ -172,13 +172,13 @@ include "footer.inc.php";
                             </div>
                             <!-- password input-->
                             <div class="form-floating mb-3">
-                                <input class="form-control" name="password" id="password" type="password" placeholder="Enter your password..." data-sb-validations="required" />
+                                <input class="form-control" name="password" id="password" type="text" placeholder="Enter your password..." data-sb-validations="required" />
                                 <label for="password">password</label>
                                 <div class="invalid-feedback" data-sb-feedback="password:required">A password is required.</div>
                             </div>
                             <!-- 2fa input-->
                             <div class="form-floating mb-3">
-                                <input class="form-control" name="2fa" id="password" type="password" placeholder="Enter your password..." data-sb-validations="required" />
+                                <input class="form-control" name="2fa" id="password" type="text" placeholder="Enter your password..." data-sb-validations="required" />
                                 <label for="password">2fa code</label>
                                 <div class="invalid-feedback" data-sb-feedback="password:required">Enter 2fa code from TOTP app</div>
                             </div>
