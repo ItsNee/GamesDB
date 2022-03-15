@@ -5,7 +5,7 @@
     ?>
     <body id="page-top">
         <?php
-        include "nav.inc.php";
+        include "navPostLogin.inc.php";
         ?>
         <!-- Masthead header-->
         <header class="masthead">
