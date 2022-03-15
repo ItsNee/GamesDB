@@ -142,12 +142,6 @@ include "head.inc.php";
                         <br />
                         Start gaming.
                     </h2>
-                    <button class="btn btn-primary rounded-pill px-3 mb-2 mb-lg-0" data-bs-toggle="modal" data-bs-target="#registerModal">
-                        <span class="d-flex align-items-center">
-                            <i class="bi bi-person-plus me-2"></i>
-                            <span class="small">Register Now!</span>
-                        </span>
-                    </button>
                 </div>
             </div>
         </section>
