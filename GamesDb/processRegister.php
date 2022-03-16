@@ -43,7 +43,7 @@ if ($password == $confirmPassword){
 }
 
 session_start();
-$_SESSION['email'] = $email1;
+$_SESSION['email'] = $email;
 $_SESSION['username'] = $username;
 //Check extension
 $isAdmin=0;

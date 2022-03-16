@@ -45,7 +45,7 @@ include "head.inc.php";
 ?>
     <body id="page-top">
     <?php
-    include "nav.inc.php";
+    include "navBlank.inc.php";
     ?>
         <!-- Masthead header-->
         <header class="masthead">

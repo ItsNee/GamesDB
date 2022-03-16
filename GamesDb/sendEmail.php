@@ -215,6 +215,8 @@ echo "Error while sending Email.";
 } else {
 //echo "Email sent successfully";
 //header("Location:emailverification.php");
+session_start();
+session_destroy();
 }
 
 ?>
@@ -226,7 +228,7 @@ include "head.inc.php";
 ?>
     <body id="page-top">
     <?php
-    include "nav.inc.php";
+    include "navBlank.inc.php";
     ?>
         <!-- Masthead header-->
         <header class="masthead">
