@@ -88,7 +88,12 @@
                 echo '<h5 class = "fw-bolder">' . $name . '</h5>';
                 echo '<p class = "card-text">' . $gameGenre . '</p>';
                 echo '<!--Product price-->';
-                echo '<p class = "card-text">$' . $price . '</p>';
+                if ($price == '0'){
+                    echo '<p class = "card-text">Free to play!</p>';                    
+                }
+                else{
+                    echo '<p class = "card-text">$' . $price . '</p>';
+                }
                 echo '</div>';
                 echo '</div>';
                 echo '<!--Product actions-->';
