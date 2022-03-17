@@ -10,6 +10,6 @@ $config = parse_ini_file('../../private/db-config-project.ini');
         echo $errorMsg;
     }
  else {
-        echo "done";
+//        echo "done";
 }
 ?>
