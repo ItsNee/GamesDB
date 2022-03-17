@@ -56,7 +56,6 @@
 
 
         <?php
-        //hihi
         include "db.inc.php";
 
         $query = "SELECT * FROM games";
