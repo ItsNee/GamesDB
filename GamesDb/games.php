@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <?php
+    //nee test edit
     include "head.inc.php";
     ?>
     <body id="page-top">
