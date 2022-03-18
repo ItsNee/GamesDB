@@ -62,6 +62,7 @@
         $result = mysqli_query($conn, $query);
         if ($result->num_rows > 0) {
 
+            // if there are games in db, create a section to display games
             echo '<section class = "py-5">';
             echo '<div class = "container px-4 px-lg-5 mt-5">';
             echo '<div class = "row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">';
@@ -88,6 +89,7 @@
                 echo '<h5 class = "fw-bolder">' . ucfirst($name) . '</h5>';
                 echo '<p class = "card-text">' . ucfirst($gameGenre) . '</p>';
                 echo '<!--Product price-->';
+                // if price == 0, display 'Free to play!' instead of $0
                 if ($price == '0'){
                     echo '<p class = "card-text">Free to play!</p>';                    
                 }
@@ -97,10 +99,11 @@
                 echo '</div>';
                 echo '</div>';
                 echo '<!--Product actions-->';
+                // form button that brings appId of selected game to individual games page
                 echo '<div class = "card-footer p-4 pt-0 border-top-0 bg-transparent">';
                 echo '<form id="indivGamesForm" name="indivGamesForm" action="individualGames.php" method="POST" enctype="multipart/form-data">';
                 echo '<input type="hidden" name="appId" value="' . $appId . '" />';
-                echo '<div class = "text-center"><button class = "btn btn-outline-secondary mt-auto" type="submit">View more!</button></div>';
+                echo '<div class = "text-center"><button class = "btn btn-outline-primary mt-auto" type="submit">View more!</button></div>';
                 echo '</form>';
                 echo '</div>';
                 echo '</div>';
