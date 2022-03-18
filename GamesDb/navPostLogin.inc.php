@@ -26,7 +26,7 @@ if (isset($_SESSION['username']) == true) {
                     <button class="btn btn-primary rounded-pill px-3 mb-2 mb-lg-0">
                         <span class="d-flex align-items-center">
                             <i class="bi bi-person-plus me-2"></i>
-                            <span class="small">Hey, <?php print_r($username) ?></span>
+                            <span class="small">Hey, <?php print_r(ucfirst($username)) ?></span>
                         </span>
                     </button>
                     &nbsp;&nbsp;

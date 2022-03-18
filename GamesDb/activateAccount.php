@@ -14,6 +14,7 @@ if (isset($_GET['code'])) {
             $f2asecret = $row["2faSecret"];
             $isAdmin = $row["isAdmin"];
             $email = $row["email"];
+            $username = $row["username"];
         }
         $query= $conn->prepare("UPDATE users SET isActivated=1 WHERE 2faSecret=?"); //prepared statement
         $query->bind_param("s", $f2asecret); //bind the parameters
@@ -26,7 +27,7 @@ if (isset($_GET['code'])) {
         $statusMsg = "File upload failed, please try again.";
         }else{
             $Authenticator = new Authenticator();
-            $qrCodeUrl = $Authenticator->getQR($email, $f2asecret);
+            $qrCodeUrl = $Authenticator->getQR($username, $f2asecret, "GamesDB");
         }
     } else {
         echo "0 results";

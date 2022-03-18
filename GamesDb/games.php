@@ -80,13 +80,13 @@
                 echo '<div class = "col mb-5">';
                 echo '<div class = "card h-100">';
                 echo '<!--Product image-->';
-                echo '<img class = "card-img-top" src="' . $gameImage . '" alt="Image of ' . $name . '" />';
+                echo '<img class = "card-img-top" src="' . $gameImage . '" alt="Image of ' . ucfirst($name) . '" />';
                 echo '<!--Product details-->';
                 echo '<div class = "card-body p-4">';
                 echo '<div class = "text-center">';
                 echo '<!--Product name-->';
-                echo '<h5 class = "fw-bolder">' . $name . '</h5>';
-                echo '<p class = "card-text">' . $gameGenre . '</p>';
+                echo '<h5 class = "fw-bolder">' . ucfirst($name) . '</h5>';
+                echo '<p class = "card-text">' . ucfirst($gameGenre) . '</p>';
                 echo '<!--Product price-->';
                 if ($price == '0'){
                     echo '<p class = "card-text">Free to play!</p>';                    
