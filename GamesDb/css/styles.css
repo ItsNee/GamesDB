@@ -11289,6 +11289,8 @@ textarea.form-control-lg {
 }
 html {
   scroll-padding-top: 4.5rem;
+  height:100%;
+  width: 100%;
 }
 
 .bg-black {
