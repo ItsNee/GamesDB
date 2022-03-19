@@ -5,7 +5,12 @@ session_start();
 if (isset($_SESSION['username']) == true) {
     $username = $_SESSION['username'];
     $email = $_SESSION['email'];
-    header("location: home.php");
+//    if (isset($_GET['error'])) {
+//    $hi=0;
+//    }else{
+//        header("location: home.php");
+//    }
+    
 }
 ?>
 <!-- Navigation-->

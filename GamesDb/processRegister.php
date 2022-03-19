@@ -6,23 +6,28 @@ require "authenticator.inc.php";
 $inputSuccess=true; //specify a variable which will initially be true, and set to false if the input fails the validation checks
 $username = $_POST['username'];
 if(!preg_match("/^[a-zA-Z0-9]{1,255}$/",$username)){ //this regex will validate if the username only has alphanumeric chars
-    echo "<script type='text/javascript'>alert('ERROR. Check your username format and try again. It should only contain alphanumeric characters');</script>";
+    $error = base64_encode("Check your username format and try again. It should only contain alphanumeric characters");
+    header("location: 404.php?error=".$error);
      //set the following the false so that the user inputs will not be added to database should it not meet the formatting requirements.
    $inputSuccess=false;
  }
 $email = $_POST['email'];
 if(!preg_match("/[a-zA-Z0-9_\-]+@([a-zA-Z_\-])+[.]+[a-zA-Z]{2,4}/",$email)){ //this regex will validate if the user email matches the format of an email i.e example@email.com
     echo "<script type='text/javascript'>alert('ERROR. Check your email format and try again');</script>";
+    $error = base64_encode("Check your email format and try again");
+    header("location: 404.php?error=".$error);
     $inputSuccess=false;
 }
 $password = $_POST['password'];
 if(!preg_match("/[a-zA-Z0-9!@#$ ]{8,255}/",$password)){ //this regex will validate if the user password contains at least 8 chars, and only contains alphanumeric chars, spaces and some symbols
-    echo "<script type='text/javascript'>alert('ERROR. Passwords must be of minimum length 8 characters. We only accept alphanumeric characters, spaces and select symbols: @,# and $.');</script>";
+    $error = base64_encode("Passwords must be of minimum length 8 characters. We only accept alphanumeric characters, spaces and select symbols: @,# and $.");
+    header("location: 404.php?error=".$error);
     $inputSuccess=false;
 }
 $confirmPassword = $_POST['confirmPassword'];
 if(!preg_match("/[a-zA-Z0-9!@#$ ]{8,255}/",$password)){ //this regex will validate if the user password contains at least 8 chars, and only contains alphanumeric chars, spaces and some symbols
-    echo "<script type='text/javascript'>alert('ERROR. Passwords must be of minimum length 8 characters. We only accept alphanumeric characters, spaces and select symbols: @,# and $.');</script>";
+    $error = base64_encode("Passwords must be of minimum length 8 characters. We only accept alphanumeric characters, spaces and select symbols: @,# and $.");
+    header("location: 404.php?error=".$error);
     $inputSuccess=false;
 }
 
@@ -86,20 +91,21 @@ if(!empty($_FILES["file"]["name"])){
             $errorMsg = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
             $success = false;
             echo $errorMsg;
-            $statusMsg = "File upload failed, please try again.";
+            $error = base64_encode("File upload failed, please try again.");
+            header("location: 404.php?error=".$error);
             }
         }else{
-            $statusMsg = "Sorry, there was an error uploading your file.";
+            $error = base64_encode("Sorry, there was an error uploading your file.");
+            header("location: 404.php?error=".$error);
         }
     }else{
-        $statusMsg = 'Sorry, only JPG, JPEG, PNG, GIF, & PDF files are allowed to upload.';
+        $error = base64_encode("Sorry, only JPG, JPEG, PNG, GIF, & PDF files are allowed to upload.");
+        header("location: 404.php?error=".$error);
     }
 }else{
-    $statusMsg = 'Please select a file to upload.';
+    $error = base64_encode("Please select a file to upload.");
+    header("location: 404.php?error=".$error);
 }
-
-// Display status message
-echo $statusMsg;
 }
 header("location: sendEmail.php");
 }else{

@@ -38,18 +38,19 @@ $query = "select * from users where username='$username'";
 
                     //header("location: plogindex.php");
                 }else {
-                    $error = "Your Login Name or Password is invalid";
-                    header("location: index.php"); 
+                    $error = base64_encode("Your Login Name or Password is invalid");
+                    header("location: 404.php?error=".$error); 
                 }
             }else {
-                $error = "Your 2FA code is wrong!";
-                header("location: index.php");
+                $error = base64_encode("Your 2FA code is wrong!");
+                header("location: 404.php?error=".$error);
             }
         }else{
-            $error = "Your Account is unactivated";
+            $error = base64_encode("Your Account is unactivated");
+            header("location: 404.php?error=".$error);
         }
         
     }else {
-        $error = "Your Login Name or Password is invalid";
-        header("location: index.php");
+        $error = base64_encode("Your Login Name or Password is invalid");
+        header("location: 404.php?error=".$error);
     }
