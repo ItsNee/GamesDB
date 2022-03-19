@@ -25,13 +25,15 @@
                                         <?php
                                         include "db.inc.php";
 
+                                        echo '<a class="dropdown-item" value="all">All Games</a>';
+
                                         $query = "SELECT DISTINCT gameGenre FROM games";
                                         $result = mysqli_query($conn, $query);
                                         if ($result->num_rows > 0) {
                                             // output data of each row
-                                            while ($row = $result->fetch_assoc()) {
+                                            while ($row = $result->fetch_assoc()) { // $row = array $results[x] where x is loop counter
                                                 $gameGenre = $row["gameGenre"];
-                                                echo '<a class="dropdown-item" href="#">' . ucfirst($gameGenre) . '</a>';
+                                                echo '<a class="dropdown-item" value="' . $gameGenre . '">' . ucfirst($gameGenre) . '</a>';
                                             }
                                         } else {
                                             echo "0 results";
@@ -39,14 +41,14 @@
                                         ?>                                        
                                     </div>
                                 </div>
-                                <div class="input-group justify-content-end">
+                                <form id="searchGamesForm" class="input-group justify-content-end" action="" method="POST" enctype="multipart/form-data">
                                     <div class="form-outline">
-                                        <input type="search" id="form1" class="form-control form-control-lg" placeholder="Search for games here!"/>                                        
+                                        <input type="search" name="searchTerm" class="form-control form-control-lg" placeholder="Search for games here!"/>                                        
                                     </div>        
-                                    <button type="button" class="btn btn-primary">
+                                    <button id="submitBtn" type="submit" name="searchQuery" class="btn btn-primary">
                                         <i class="bi bi-search"></i>
-                                    </button>
-                                </div>
+                                    </button>                                    
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -54,69 +56,81 @@
             </div>
         </section>
 
-
         <?php
-        include "db.inc.php";
+        if (isset($_POST['searchQuery'])) {
+            $searchTerm = $_POST['searchTerm'];
+            displayGames($searchTerm);
+        } else {
+            displayGames("");
+        }
 
-        $query = "SELECT * FROM games";
-        $result = mysqli_query($conn, $query);
-        if ($result->num_rows > 0) {
+        function displayGames($search) {
+            include "db.inc.php";
 
-            // if there are games in db, create a section to display games
+            //query the DB
+            if ($search == "") {
+                $query = 'SELECT * FROM games';
+            } else {
+                $query = 'SELECT * FROM games where name LIKE "%' . $search . '%" OR developer LIKE "%' . $search . '%" OR price LIKE "%' . $search . '%" OR gameGenre LIKE "%' . $search . '%";';
+            }
+
+            $result = mysqli_query($conn, $query);
             echo '<section class = "py-5">';
             echo '<div class = "container px-4 px-lg-5 mt-5">';
             echo '<div class = "row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">';
 
-            // output data of each row
-            while ($row = $result->fetch_assoc()) {
-                $gameGenre = $row["gameGenre"];
-                $appId = $row["appid"];
-                $name = $row["name"];
-                $developer = $row["developer"];
-                $positiveVotes = $row["positiveVotes"];
-                $negativeVotes = $row["negativeVotes"];
-                $price = $row["price"];
-                $gameImage = $row["gameImage"];
+            if ($result->num_rows > 0) {
+                // output data of each row
+                while ($row = $result->fetch_assoc()) { // $row = array $results[x] where x is loop counter
+                    $gameGenre = $row["gameGenre"];
+                    $appId = $row["appid"];
+                    $name = $row["name"];
+                    $developer = $row["developer"];
+                    $positiveVotes = $row["positiveVotes"];
+                    $negativeVotes = $row["negativeVotes"];
+                    $price = $row["price"];
+                    $gameImage = $row["gameImage"];
 
-                echo '<div class = "col mb-5">';
-                echo '<div class = "card h-100">';
-                echo '<!--Product image-->';
-                echo '<img class = "card-img-top" src="' . $gameImage . '" alt="Image of ' . ucfirst($name) . '" />';
-                echo '<!--Product details-->';
-                echo '<div class = "card-body p-4">';
-                echo '<div class = "text-center">';
-                echo '<!--Product name-->';
-                echo '<h5 class = "fw-bolder">' . ucfirst($name) . '</h5>';
-                echo '<p class = "card-text">' . ucfirst($gameGenre) . '</p>';
-                echo '<!--Product price-->';
-                // if price == 0, display 'Free to play!' instead of $0
-                if ($price == '0'){
-                    echo '<p class = "card-text">Free to play!</p>';                    
+                    echo '<div class = "col mb-5">';
+                    echo '<div class = "card h-100">';
+                    echo '<!--Product image-->';
+                    echo '<img class = "card-img-top" src="' . $gameImage . '" alt="Image of ' . ucfirst($name) . '" />';
+                    echo '<!--Product details-->';
+                    echo '<div class = "card-body p-4">';
+                    echo '<div class = "text-center">';
+                    echo '<!--Product name-->';
+                    echo '<h5 class = "fw-bolder">' . ucfirst($name) . '</h5>';
+                    echo '<p class = "card-text">' . ucfirst($gameGenre) . '</p>';
+                    echo '<!--Product price-->';
+                    // if price == 0, display 'Free to play!' instead of $0
+                    if ($price == '0') {
+                        echo '<p class = "card-text">Free to play!</p>';
+                    } else {
+                        echo '<p class = "card-text">$' . $price . '</p>';
+                    }
+                    echo '</div>';
+                    echo '</div>';
+                    echo '<!--Product actions-->';
+                    // form button brings appId of selected game to individual games page
+                    echo '<div class = "card-footer p-4 pt-0 border-top-0 bg-transparent">';
+                    echo '<form id="indivGamesForm" name="indivGamesForm" action="individualGames.php" method="POST" enctype="multipart/form-data">';
+                    echo '<input type="hidden" name="appId" value="' . $appId . '" />';
+                    echo '<div class = "text-center"><button class = "btn btn-outline-primary mt-auto" type="submit">View more!</button></div>';
+                    echo '</form>';
+                    echo '</div>';
+                    echo '</div>';
+                    echo '</div>';
                 }
-                else{
-                    echo '<p class = "card-text">$' . $price . '</p>';
-                }
-                echo '</div>';
-                echo '</div>';
-                echo '<!--Product actions-->';
-                // form button that brings appId of selected game to individual games page
-                echo '<div class = "card-footer p-4 pt-0 border-top-0 bg-transparent">';
-                echo '<form id="indivGamesForm" name="indivGamesForm" action="individualGames.php" method="POST" enctype="multipart/form-data">';
-                echo '<input type="hidden" name="appId" value="' . $appId . '" />';
-                echo '<div class = "text-center"><button class = "btn btn-outline-primary mt-auto" type="submit">View more!</button></div>';
-                echo '</form>';
-                echo '</div>';
-                echo '</div>';
-                echo '</div>';
+            } else {
+                echo "0 results";
             }
 
             echo '</div>';
             echo '</div>';
             echo '</section>';
-        } else {
-            echo "0 results";
         }
-        ?>  
+        ?>
+        
     </div>
 </div>
 

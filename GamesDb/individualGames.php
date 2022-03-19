@@ -16,7 +16,7 @@
         $query = "SELECT * FROM games where appid = " . $appId;
         $result = mysqli_query($conn, $query);
         if ($result->num_rows > 0) {
-            
+
             while ($row = $result->fetch_assoc()) {
                 echo '<header class="masthead">';
                 echo '<div class="container">';
@@ -33,7 +33,7 @@
                 echo '<h1 class="my-4">' . $name . '</h1>';
                 echo '<div class="row">';
                 echo '<div class = "col-md-8">';
-                echo '<img class = "img-fluid" width="100%" src = "' . $gameImage . '" alt = "Image of '.$name.'">';
+                echo '<img class = "img-fluid" width="100%" src = "' . $gameImage . '" alt = "Image of ' . $name . '">';
                 echo '</div>';
                 echo '<div class = "col-md-4">';
                 echo '<h3 class = "my-3">Description</h3>';
@@ -49,8 +49,15 @@
                 echo '<form id = "addToCartForm" name = "addToCartForm" action = "cart.php" method = "POST" enctype = "multipart/form-data">';
                 echo '<input type = "hidden" name = "appId" value = "' . $appId . '" />';
                 echo '<div class="d-flex justify-content-center">';
-                echo '<div style="display:block;padding: 0.375rem 0.75rem;">$'.$price.'</div>'; // price to be side by side with add to cart button
-                echo '<button class = "btn btn-outline-primary " type = "submit">Add to Cart!</button></div>';
+                echo '<div style="display:block;padding: 0.375rem 0.75rem;">';
+                // if price == 0, display 'Free to play!' instead of $0
+                if ($price == '0') {
+                    echo 'Free to play!';
+                } else {
+                    echo $price;
+                }
+                echo '</div>'; // price to be side by side with add to cart button
+                echo '<button class = "btn btn-outline-success " type = "submit">Add to Cart!</button></div>';
                 echo '</form>';
                 echo '</div>';
                 echo '</div>';
