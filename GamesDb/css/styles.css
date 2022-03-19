@@ -11628,8 +11628,10 @@ footer a:hover, footer a:active, footer a:focus {
 	position: absolute;
 }
 
-/*games.php style*/
-/*.intro {
-  height: 50vh;
+/*individualGames.php style*/
+/*.price{
+    display:block;
+    padding: 0.375rem 0.75rem;
 }*/
+
 

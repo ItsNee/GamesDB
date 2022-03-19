@@ -48,18 +48,15 @@
                 echo '<div class = "card-footer p-4 pt-0 border-top-0 bg-transparent">';
                 echo '<form id = "addToCartForm" name = "addToCartForm" action = "cart.php" method = "POST" enctype = "multipart/form-data">';
                 echo '<input type = "hidden" name = "appId" value = "' . $appId . '" />';
-                echo '<div class = "text-center">';
-                echo '<p>$'.$price.'</p>'; // price to be side by side with add to cart button
-                echo '<button class = "btn btn-outline-primary mt-auto" type = "submit">Add to Cart!</button></div>';
+                echo '<div class="d-flex justify-content-center">';
+                echo '<div style="display:block;padding: 0.375rem 0.75rem;">$'.$price.'</div>'; // price to be side by side with add to cart button
+                echo '<button class = "btn btn-outline-primary " type = "submit">Add to Cart!</button></div>';
                 echo '</form>';
                 echo '</div>';
                 echo '</div>';
                 echo '</div>';
                 echo '</div>';
                 echo '</header>';
-                echo '</div>';
-                echo '</div>';
-                echo '</section>';
             }
         } else {
             echo "0 results";
