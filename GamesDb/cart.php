@@ -3,6 +3,14 @@
     <?php
     include "head.inc.php";
     ?>
+    <style>
+        .cart-price{
+            padding-top:.5rem;
+        }
+        .update-button{
+            margin-top: .5em;
+        }
+    </style>
     <body id="page-top">
         <?php
         include "navPostLogin.inc.php";
@@ -51,20 +59,25 @@
             echo '<p class="lead fw-normal mb-2">'.$name.'</p>';
             echo '<p><span class="text-muted">Genre: </span>'.$gameGenre.'</p>';
             echo '</div>';
+            
+            
             echo '<div class="col-md-3 col-lg-3 col-xl-2 d-flex">';
-            echo '<input id="form1" min="0" name="quantity" value="'.$qty.'" type="number"';
+            echo '<form action = "updateGame.php" method = "POST" enctype = "multipart/form-data">';
+            echo '<input id="gameQty" min="0" name="gameQty" value="'.$qty.'" type="number"';
             echo 'class="form-control form-control-sm" />';
+            echo '<input type = "hidden" name = "appId" value="'. $appid .'" />';
             echo '';
-            echo '<button class="btn btn-link px-2">';
-            echo 'Update';
-            echo '</button>';
+            echo '<div class="update-button">';
+            echo '<button class = "btn btn-outline-success " type = "submit">Update</button></div>';
+            echo '</form>';
             echo '</div>';
-            echo '<div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">';
-            echo '<h5 class="mb-0">$'.$price.'</h5>';
+            
+            
+            echo '<div class="col-md-3 col-lg-3 col-xl-2 offset-lg-1">';
+            echo '<h5 class="mb-0 cart-price">$'.$price.'</h5>';
             echo '</div>';
-            echo '<div class="col-md-1 col-lg-1 col-xl-1 text-end">';
-            echo '<a href="#!" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>';
-            echo '</div>';
+
+            
             echo '</div>';
             echo '</div>';
             echo '</div>';
@@ -73,7 +86,7 @@
             
             echo '<div class="card">';
             echo '<div class="card-body">';
-            echo '<button type="button" class="btn btn-warning btn-block btn-lg">Proceed to Pay</button>';
+            echo '<button type="button" class="btn btn-primary btn-block btn-lg">Checkout</button>';
             echo '</div>';
             echo '</div>';
             echo '</div>';
@@ -81,7 +94,7 @@
             echo '</div>';
             echo '</section>';
         } else {
-            echo '<header style ="height:100%;" class="masthead">';
+            echo '<header style ="height:100%; background-color: white;" class="masthead">';
             echo '<div class="container px-5 text-center">';
             echo '<div class="row gx-14 align-items-center">';
             echo '<div class="col-lg-14">';

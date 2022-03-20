@@ -46,7 +46,7 @@
                 echo '<h5 class = "my-3">Developer : ' . $developer . '</h5>';
                 echo '<br>';
                 echo '<div class = "card-footer p-4 pt-0 border-top-0 bg-transparent">';
-                echo '<form id = "addToCartForm" name = "addToCartForm" action = "cart.php" method = "POST" enctype = "multipart/form-data">';
+                echo '<form id = "addToCartForm" name = "addToCartForm" action = "addToCart.php" method = "POST" enctype = "multipart/form-data">';
                 echo '<input type = "hidden" name = "appId" value = "' . $appId . '" />';
                 echo '<div class="d-flex justify-content-center">';
                 echo '<div style="display:block;padding: 0.375rem 0.75rem;">';
