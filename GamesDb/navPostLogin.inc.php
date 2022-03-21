@@ -19,8 +19,6 @@ if (isset($_SESSION['username']) == true) {
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
-                        <li class="nav-item"><a class="nav-link me-lg-3" href="somePage.php">Some Page</a></li>
-                        <li class="nav-item"><a class="nav-link me-lg-3" href="anotherPage.php">Another Page</a></li>
                         <li class="nav-item"><a class="nav-link me-lg-3" href="games.php">Games</a></li>
                         <li class="nav-item"><a class="nav-link me-lg-3" href="favourites.php">Favourites</a></li>
                         <li class="nav-item"><a class="nav-link me-lg-3" href="cart.php">Cart</a></li>
