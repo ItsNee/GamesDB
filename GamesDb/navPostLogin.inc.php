@@ -22,6 +22,7 @@ if (isset($_SESSION['username']) == true) {
                         <li class="nav-item"><a class="nav-link me-lg-3" href="somePage.php">Some Page</a></li>
                         <li class="nav-item"><a class="nav-link me-lg-3" href="anotherPage.php">Another Page</a></li>
                         <li class="nav-item"><a class="nav-link me-lg-3" href="games.php">Games</a></li>
+                        <li class="nav-item"><a class="nav-link me-lg-3" href="favourites.php">Favourites</a></li>
                         <li class="nav-item"><a class="nav-link me-lg-3" href="cart.php">Cart</a></li>
                     </ul>
                     <button class="btn btn-primary rounded-pill px-3 mb-2 mb-lg-0">
