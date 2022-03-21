@@ -22,8 +22,8 @@
         $stmt->bind_param("s", $username);
         $stmt->execute();
         $result = $stmt->get_result();
-        if ($result->num_rows > 0) {
-            $totalValue = 0;
+        $totalValue = 0;
+        if ($result->num_rows > 0) {        
             echo '<section class="h-100">';
             echo '<div class="container h-100 py-5">';
             echo '<div class="row d-flex justify-content-center align-items-center h-100">';
@@ -60,7 +60,7 @@
             echo '<p><span class="text-muted">Genre: </span>'.$gameGenre.'</p>';
             echo '</div>';
             
-            
+            //Update Button
             echo '<div class="col-md-3 col-lg-3 col-xl-2 d-flex">';
             echo '<form action = "updateGame.php" method = "POST" enctype = "multipart/form-data">';
             echo '<input id="gameQty" min="0" name="gameQty" value="'.$qty.'" type="number"';
@@ -72,10 +72,17 @@
             echo '</form>';
             echo '</div>';
             
-            
+            //Game Price
+            if ($price != 0){
             echo '<div class="col-md-3 col-lg-3 col-xl-2 offset-lg-1">';
             echo '<h5 class="mb-0 cart-price">$'.$price.'</h5>';
             echo '</div>';
+            }
+            else{
+            echo '<div class="col-md-3 col-lg-3 col-xl-2 offset-lg-1">';
+            echo '<h5 class="mb-0 cart-price">Free To Play</h5>';
+            echo '</div>';
+            }
 
             
             echo '</div>';
@@ -84,6 +91,25 @@
 
             }
             
+            //Total Value
+            echo '<div class="card rounded-3 mb-4">';
+            echo '<div class="card-body p-4">';
+            echo '<div class="row d-flex justify-content-between align-items-center">';
+            echo '<div class="col-md-2 col-lg-2 col-xl-2">';
+            echo '<p class="lead fw-normal mb-2">Total:</p>';
+            echo '</div>';
+            echo '<div class="col-md-3 col-lg-3 col-xl-3">';
+            echo '</div>';
+            echo '<div class="col-md-3 col-lg-3 col-xl-2 d-flex">';
+            echo '</div>';
+            echo '<div class="col-md-3 col-lg-3 col-xl-2 offset-lg-1">';
+            echo '<h5 class="mb-0 cart-price">$'.$totalValue.'</h5>';
+            echo '</div>';
+            echo '</div>';
+            echo '</div>';
+            echo '</div>';
+            
+            //Checkout Button
             echo '<div class="card">';
             echo '<div class="card-body">';
             echo '<button type="button" class="btn btn-primary btn-block btn-lg">Checkout</button>';

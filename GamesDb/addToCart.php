@@ -11,8 +11,8 @@
         <?php
         include "db.inc.php";
         $appId = (int) $_POST['appId'];
-        $query = $conn->prepare("SELECT * FROM cart WHERE appid=?"); 
-        $query->bind_param("s", $appId); 
+        $query = $conn->prepare("SELECT * FROM cart WHERE appid=? and username =?"); 
+        $query->bind_param("ss", $appId, $username); 
         $query->execute();         
         $select = $query->get_result();     
         
@@ -20,7 +20,7 @@
             $row = $select->fetch_assoc(); 
             $newQty = $row["qty"] + 1;
             
-            $sql = "UPDATE cart SET qty=".$newQty." WHERE appid=".$appId;
+            $sql = "UPDATE cart SET qty=".$newQty." WHERE appid=".$appId."and username=".$username;
             $conn->query($sql);
             
         } 
