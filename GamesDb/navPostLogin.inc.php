@@ -5,6 +5,7 @@ session_start();
 if (isset($_SESSION['username']) == true) {
     $username = $_SESSION['username'];
     $email = $_SESSION['email'];
+    $profilePic = $_SESSION['profilePic'];
 } else {
     header("location: index.php");
 }
@@ -23,12 +24,12 @@ if (isset($_SESSION['username']) == true) {
                         <li class="nav-item"><a class="nav-link me-lg-3" href="favourites.php">Favourites</a></li>
                         <li class="nav-item"><a class="nav-link me-lg-3" href="cart.php">Cart</a></li>
                     </ul>
-                    <button class="btn btn-primary rounded-pill px-3 mb-2 mb-lg-0">
+                    <a href="profile.php"><button class="btn btn-primary rounded-pill px-3 mb-2 mb-lg-0">
                         <span class="d-flex align-items-center">
-                            <i class="bi bi-person-plus me-2"></i>
+                            <i class="bi bi-person me-2"></i>
                             <span class="small">Hey, <?php print_r(ucfirst($username)) ?></span>
                         </span>
-                    </button>
+                    </button></a>
                     &nbsp;&nbsp;
                     <a href="processSignOut.php"><button class="btn btn-primary rounded-pill px-3 mb-2 mb-lg-0">
                         <span class="d-flex align-items-center">
