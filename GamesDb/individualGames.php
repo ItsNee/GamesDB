@@ -10,6 +10,7 @@
 
         <?php
         $appId = $_POST['appId'];
+        $_SESSION['appId'] = $appId;
 
         // obtained from https://startbootstrap.com/snippets/portfolio-item
 
@@ -54,11 +55,12 @@
                 if ($price == '0') {
                     echo 'Free to play!';
                 } else {
-                    echo $price;
+                    echo '$'.$price;
                 }
                 echo '</div>'; // price to be side by side with add to cart button
                 echo '<button class = "btn btn-outline-success " type = "submit">Add to Cart!</button></div>';
                 echo '</form>';
+                echo 'appId session variable: '.$_SESSION['appId'];
                 echo '</div>';
                 echo '</div>';
                 echo '</div>';
