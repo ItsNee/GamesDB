@@ -23,6 +23,9 @@ if (isset($_SESSION['username']) == true) {
                         <li class="nav-item"><a class="nav-link me-lg-3" href="games.php">Games</a></li>
                         <li class="nav-item"><a class="nav-link me-lg-3" href="favourites.php">Favourites</a></li>
                         <li class="nav-item"><a class="nav-link me-lg-3" href="cart.php">Cart</a></li>
+                        <?php if ($_SESSION['isAdmin'] == "1") { ?>   
+                        <li class="nav-item"><a class="nav-link me-lg-3" href="admin.php">Admin Page</a></li>
+                        <?php }?>
                     </ul>
                     <a href="profile.php"><button class="btn btn-primary rounded-pill px-3 mb-2 mb-lg-0">
                         <span class="d-flex align-items-center">
