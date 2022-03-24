@@ -19,9 +19,9 @@ $query = "select * from users where username='$username'";
         $passwordInDb = $row['password'];
         $email = $row['email'];
         $secret = $row['2faSecret'];
-        $profilePic = $row[profilePic];
-        $isAdmin = $row[isAdmin];
-        $isActivated = $row[isActivated];
+        $profilePic = $row['profilePic'];
+        $isAdmin = $row['isAdmin'];
+        $isActivated = $row['isActivated'];
         
         $checkResult = $Authenticator->verifyCode($secret, $f2acode, 2);
         if ($isActivated==1){

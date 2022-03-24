@@ -1,4 +1,10 @@
 <?php
+session_start();
+if ($_SESSION['isAdmin'] == "1") {
+    $l=1;
+} else {
+    header("location: index.php");
+}
 include "db.inc.php";
 if (isset($_POST['adminUpdateAccount'])) {
     $inputSuccess = true; //specify a variable which will initially be true, and set to false if the input fails the validation checks
