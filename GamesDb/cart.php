@@ -23,7 +23,7 @@
         $stmt->execute();
         $result = $stmt->get_result();
         $totalValue = 0;
-        if ($result->num_rows > 0) {        
+        if ($result->num_rows > 0) {
             echo '<section class="h-100">';
             echo '<div class="container h-100 py-5">';
             echo '<div class="row d-flex justify-content-center align-items-center h-100">';
@@ -40,57 +40,59 @@
                 $stmt2->execute();
                 $result2 = $stmt2->get_result();
                 $row2 = $result2->fetch_assoc();
-                
+
                 $gameGenre = $row2["gameGenre"];
                 $name = $row2["name"];
                 $developer = $row2["developer"];
                 $price = $row2["price"];
                 $gameImage = $row2["gameImage"];
                 $totalValue = $totalValue + $price;
-                
-            echo '<div class="card rounded-3 mb-4">';
-            echo '<div class="card-body p-4">';
-            echo '<div class="row d-flex justify-content-between align-items-center">';
-            echo '<div class="col-md-2 col-lg-2 col-xl-2">';
-            echo '<img src="'.$gameImage.'"';
-            echo 'class="img-fluid rounded-3" alt="'.$name.'">';
-            echo '</div>';
-            echo '<div class="col-md-3 col-lg-3 col-xl-3">';
-            echo '<p class="lead fw-normal mb-2">'.$name.'</p>';
-            echo '<p><span class="text-muted">Genre: </span>'.$gameGenre.'</p>';
-            echo '</div>';
-            
-            //Update Button
-            echo '<div class="col-md-3 col-lg-3 col-xl-2 d-flex">';
-            echo '<form action = "updateGame.php" method = "POST" enctype = "multipart/form-data">';
-            echo '<input id="gameQty" min="0" name="gameQty" value="'.$qty.'" type="number"';
-            echo 'class="form-control form-control-sm" />';
-            echo '<input type = "hidden" name = "appId" value="'. $appid .'" />';
-            echo '';
-            echo '<div class="update-button">';
-            echo '<button class = "btn btn-outline-success " type = "submit">Update</button></div>';
-            echo '</form>';
-            echo '</div>';
-            
-            //Game Price
-            if ($price != 0){
-            echo '<div class="col-md-3 col-lg-3 col-xl-2 offset-lg-1">';
-            echo '<h5 class="mb-0 cart-price">$'.$price.'</h5>';
-            echo '</div>';
-            }
-            else{
-            echo '<div class="col-md-3 col-lg-3 col-xl-2 offset-lg-1">';
-            echo '<h5 class="mb-0 cart-price">Free To Play</h5>';
-            echo '</div>';
+
+                echo '<div class="card rounded-3 mb-4">';
+                echo '<div class="card-body p-4">';
+                echo '<div class="row d-flex justify-content-between align-items-center">';
+                echo '<div class="col-md-2 col-lg-2 col-xl-2">';
+                echo '<img src="' . $gameImage . '"';
+                echo 'class="img-fluid rounded-3" alt="' . $name . '">';
+                echo '</div>';
+                echo '<div class="col-md-3 col-lg-3 col-xl-3">';
+                echo '<form id="indivGamesForm" name="indivGamesForm" action="individualGames.php" method="POST" enctype="multipart/form-data">';
+                echo '<input type="hidden" name="appId" value="' . $appid . '" />';
+                echo '<button class = "btn"><p class="lead fw-normal mb-2">' . $name . '</p></button';
+                echo '</form>';
+
+                echo '<p><span class="text-muted">Genre: </span>' . $gameGenre . '</p>';
+                echo '</div>';
+
+                //Update Button
+                echo '<div class="col-md-3 col-lg-3 col-xl-2 d-flex">';
+                echo '<form action = "updateGame.php" method = "POST" enctype = "multipart/form-data">';
+                echo '<input id="gameQty" min="0" name="gameQty" value="' . $qty . '" type="number"';
+                echo 'class="form-control form-control-sm" />';
+                echo '<input type = "hidden" name = "appId" value="' . $appid . '" />';
+                echo '';
+                echo '<div class="update-button">';
+                echo '<button class = "btn btn-outline-success " type = "submit">Update</button></div>';
+                echo '</form>';
+                echo '</div>';
+
+                //Game Price
+                if ($price != 0) {
+                    echo '<div class="col-md-3 col-lg-3 col-xl-2 offset-lg-1">';
+                    echo '<h5 class="mb-0 cart-price">$' . $price . '</h5>';
+                    echo '</div>';
+                } else {
+                    echo '<div class="col-md-3 col-lg-3 col-xl-2 offset-lg-1">';
+                    echo '<h5 class="mb-0 cart-price">Free To Play</h5>';
+                    echo '</div>';
+                }
+
+
+                echo '</div>';
+                echo '</div>';
+                echo '</div>';
             }
 
-            
-            echo '</div>';
-            echo '</div>';
-            echo '</div>';
-
-            }
-            
             //Total Value
             echo '<div class="card rounded-3 mb-4">';
             echo '<div class="card-body p-4">';
@@ -103,12 +105,12 @@
             echo '<div class="col-md-3 col-lg-3 col-xl-2 d-flex">';
             echo '</div>';
             echo '<div class="col-md-3 col-lg-3 col-xl-2 offset-lg-1">';
-            echo '<h5 class="mb-0 cart-price">$'.$totalValue.'</h5>';
+            echo '<h5 class="mb-0 cart-price">$' . $totalValue . '</h5>';
             echo '</div>';
             echo '</div>';
             echo '</div>';
             echo '</div>';
-            
+
             //Checkout Button
             echo '<div class="card">';
             echo '<div class="card-body">';
