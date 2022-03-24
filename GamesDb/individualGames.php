@@ -54,7 +54,7 @@
                 if ($price == '0') {
                     echo 'Free to play!';
                 } else {
-                    echo $price;
+                    echo '$'.$price;
                 }
                 echo '</div>'; // price to be side by side with add to cart button
                 echo '<button class = "btn btn-outline-success " type = "submit">Add to Cart!</button></div>';

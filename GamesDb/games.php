@@ -115,7 +115,7 @@
                     echo '<div class = "card-footer p-4 pt-0 border-top-0 bg-transparent">';
                     echo '<form id="indivGamesForm" name="indivGamesForm" action="individualGames.php" method="POST" enctype="multipart/form-data">';
                     echo '<input type="hidden" name="appId" value="' . $appId . '" />';
-                    echo '<div class = "text-center"><button class = "btn btn-outline-primary mt-auto" type="submit">View more!</button></div>';
+                    echo '<div class = "text-center"><button class = "btn btn-outline-primary mt-auto" name="viewMore" type="submit">View more!</button></div>';
                     echo '</form>';
                     echo '</div>';
                     echo '</div>';
@@ -130,7 +130,7 @@
             echo '</section>';
         }
         ?>
-        
+
     </div>
 </div>
 
