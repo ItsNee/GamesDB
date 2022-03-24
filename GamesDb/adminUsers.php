@@ -14,7 +14,7 @@ if (isset($_POST['adminUpdateAccount'])) {
     $updatedProfilePic = $_REQUEST['updateProfilePic'];
     if (!preg_match("/[a-zA-Z0-9_\-]+@([a-zA-Z_\-])+[.]+[a-zA-Z]{2,4}/", $email)) { //this regex will validate if the user email matches the format of an email i.e example@email.com
         $error = base64_encode("Check your email format and try again");
-        header("location: 404.php?error=" . $email);
+        header("location: 404.php?error=" . $errorMsg);
         $inputSuccess = false;
     } else {
         $query = $conn->prepare("UPDATE users SET email=?, 2faSecret=?, profilePic=? WHERE username=?"); //prepared statement
@@ -24,7 +24,7 @@ if (isset($_POST['adminUpdateAccount'])) {
             $success = false;
             echo $errorMsg;
             $error = base64_encode("Account Update failed, please try again.");
-            header("location: 404.php?error=" . $f2aSSecret);
+            header("location: 404.php?error=" . $errorMsg);
         } else {
             $success = true;
         }
@@ -38,7 +38,7 @@ if (isset($_POST['adminUpdateAccount'])) {
         $success = false;
         echo $errorMsg;
         $error = base64_encode("Account Update failed, please try again.");
-        header("location: 404.php?error=" . $f2aSSecret);
+        header("location: 404.php?error=" . $errorMsg);
     } else {
         $success = true;
     }
@@ -51,7 +51,7 @@ if (isset($_POST['adminUpdateAccount'])) {
         $success = false;
         echo $errorMsg;
         $error = base64_encode("Account Update failed, please try again.");
-        header("location: 404.php?error=" . $f2aSSecret);
+        header("location: 404.php?error=" . $errorMsg);
     } else {
         $success = true;
     }
@@ -64,7 +64,7 @@ if (isset($_POST['adminUpdateAccount'])) {
         $success = false;
         echo $errorMsg;
         $error = base64_encode("Account Update failed, please try again.");
-        header("location: 404.php?error=" . $f2aSSecret);
+        header("location: 404.php?error=" . $errorMsg);
     } else {
         $success = true;
     }
@@ -77,7 +77,20 @@ if (isset($_POST['adminUpdateAccount'])) {
         $success = false;
         echo $errorMsg;
         $error = base64_encode("Account Update failed, please try again.");
-        header("location: 404.php?error=" . $f2aSSecret);
+        header("location: 404.php?error=" . $errorMsg);
+    } else {
+        $success = true;
+    }
+}elseif (isset($_POST['adminUpdateDeleteAccount'])) {
+
+    $query = $conn->prepare("DELETE FROM users WHERE username=?"); //prepared statement
+    $query->bind_param("s", $_REQUEST['username4Edit']); //bind the parameters
+    if (!$query->execute()) {
+        $errorMsg = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+        $success = false;
+        echo $errorMsg;
+        $error = base64_encode("Account Update failed, please try again.");
+        header("location: 404.php?error=" . $errorMsg);
     } else {
         $success = true;
     }
@@ -294,6 +307,7 @@ if (isset($_POST['adminUpdateAccount'])) {
                                                 <th class="border-top-0">Update</th>
                                                 <th class="border-top-0">Is Admin</th>
                                                 <th class="border-top-0">Is Activated</th>
+                                                <th class="border-top-0">Delete</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -346,7 +360,10 @@ if (isset($_POST['adminUpdateAccount'])) {
                                                         <td class="txt-oflo"><button class="btn btn-outline-success" name="adminUpdateEnableActivate" type="submit">Activate Account</button></td>
                                                     </form>
                                                 <?php } ?>
-
+                                                    <form action="" method="POST" enctype='multipart/form-data'>
+                                                        <input type="hidden" name="username4Edit" value="<?php print_r($username) ?>" />
+                                                        <td class="txt-oflo"><button class="btn btn-outline-danger" name="adminUpdateDeleteAccount" type="submit">Delete Account</button></td>
+                                                    </form>
                                                 </tr>
                                                 <?php
                                                 $counter += 1;
