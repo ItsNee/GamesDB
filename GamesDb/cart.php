@@ -56,10 +56,10 @@
                 echo 'class="img-fluid rounded-3" alt="' . $name . '">';
                 echo '</div>';
                 echo '<div class="col-md-3 col-lg-3 col-xl-3">';
-                echo '<form id="indivGamesForm" name="indivGamesForm" action="individualGames.php" method="POST" enctype="multipart/form-data">';
-                echo '<input type="hidden" name="appId" value="' . $appid . '" />';
-                echo '<button class = "btn"><p class="lead fw-normal mb-2">' . $name . '</p></button';
-                echo '</form>';
+                //echo '<form id="indivGamesForm" name="indivGamesForm" action="individualGames.php" method="POST" enctype="multipart/form-data">';
+                //echo '<input type="hidden" name="appId" value="' . $appid . '" />';
+               // echo '<button class = "btn"><p class="lead fw-normal mb-2">' . $name . '</p></button';
+                //echo '</form>';
 
                 echo '<p><span class="text-muted">Genre: </span>' . $gameGenre . '</p>';
                 echo '</div>';
@@ -114,7 +114,9 @@
             //Checkout Button
             echo '<div class="card">';
             echo '<div class="card-body">';
+            echo '<a href="checkout.php">';
             echo '<button type="button" class="btn btn-primary btn-block btn-lg">Checkout</button>';
+            echo '</a>';
             echo '</div>';
             echo '</div>';
             echo '</div>';

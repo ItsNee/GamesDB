@@ -11632,42 +11632,87 @@ footer a:hover, footer a:active, footer a:focus {
 }
 
 
+/*games.php css*/
+#filterGamesForm {
+    display: flex;
+}
 
-/*individualGames.php style*/
-/*.price{
-    display:block;
-    padding: 0.375rem 0.75rem;
+#filterGames {
+    /*input-group*/
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 100%;
+
+    /*justify-content-start*/
+    justify-content: flex-start !important;
+}
+
+#searchGames {
+    /*input-group*/
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 100%;
+
+    /*justify-content-end*/
+    justify-content: flex-end !important;
+}
+
+@media screen and (max-width: 990px){
+    #filterGames {
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch;
+        width: 70%;
+        justify-content: flex-start;
+    }
+
+    #searchGames {
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch;
+        width: 100%;
+        justify-content: flex-end;
+    }
+}
+
+@media screen and (max-width: 535px){
+
+    #filterGamesForm {
+        display: inline;
+    }
+
+    #filterGames {
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch;
+        width: 100%;
+        padding: 4px;
+        justify-content: center !important;
+        order: 1;
+    }
+
+    #searchGames {
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch;
+        width: 100%;
+        padding: 4px;
+        justify-content: center !important;
+        order: 2;
+    }
+}
+
+/*to show each game one by one in this viewport*/
+/*@media screen and (max-width: 415px){
+    
 }*/
 
-/*@media (min-width: 576px) {
-  .intro {
-    width: 70%;
-    display: block;
-  }
-
-}*/
-/*@media (min-width: 768px) {
-  .intro {
-    width: 60%;
-  }
-
-}
-@media (min-width: 992px) {
-  .intro {
-    width: 100%;
-  }
-
-}
-@media (min-width: 1200px) {
-  .intro {
-    width: 100%;
-  }
-
-}
-@media (min-width: 1400px) {
-  .intro {
-    width: 100%;
-  }
-
-}*/
 
