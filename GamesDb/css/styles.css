@@ -11710,6 +11710,144 @@ footer a:hover, footer a:active, footer a:focus {
     }
 }
 
+/*//For Checkout Page*/
+.section{
+    height:100%;
+}
+
+.card-header {
+    padding: .5rem 1rem;
+    margin-bottom: 0;
+    background-color: rgba(0, 0, 0, .03);
+}
+
+.btn-light:focus {
+    color: #212529;
+    background-color: #e2e6ea;
+    border-color: #dae0e5;
+    box-shadow: 0 0 0 0.2rem rgba(216, 217, 219, .5);
+}
+
+.form-control {
+    height: 50px;
+    border: 2px solid #eee;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.form-control:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #039be5;
+    outline: 0;
+    box-shadow: none;
+}
+
+.input {
+    position: relative;
+}
+
+.input i {
+    position: absolute;
+    top: 16px;
+    left: 11px;
+    color: #989898;
+}
+
+.input input {
+    text-indent: 25px;
+}
+
+.card-text {
+    font-size: 13px;
+    margin-left: 6px;
+}
+
+.certificate-text {
+    font-size: 12px;
+}
+
+.billing {
+    font-size: 11px;
+}
+
+.super-price {
+    top: 0px;
+    font-size: 22px;
+}
+
+.super-month {
+    font-size: 11px;
+}
+
+.line {
+    color: #bfbdbd;
+}
+
+.free-button {
+    background: #1565c0;
+    height: 52px;
+    font-size: 15px;
+    border-radius: 8px;
+}
+
+.payment-card-body {
+    flex: 1 1 auto;
+    padding: 24px 1rem;
+}
+
+.paypal-logo {
+    font-family: Verdana, Tahoma;
+    font-weight: bold;
+    font-size: 26px;
+}
+.color1{
+    color: #253b80;
+}
+.color2{
+    color: #179bd7;
+}
+
+.paypal-button {
+    padding: 15px 30px;
+    border: 1px solid #FF9933;
+    border-radius: 5px;
+    background-image: linear-gradient(#FFF0A8, #F9B421);
+    margin: 0 auto;
+    display: block;
+    min-width: 138px;
+    position: relative;
+}
+
+paypal-button-title {
+    font-size: 14px;
+    color: #505050;
+    vertical-align: baseline;
+    text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.6);
+}
+
+.paypal-logo {
+    display: inline-block;
+    text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.6);
+    font-size: 20px;
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 1rem 0 1rem 0;
+}
+
+.border-0{
+    border: none;
+}
+.card-other-option{
+    margin-bottom: 1rem;
+}
+
 /*to show each game one by one in this viewport*/
 /*@media screen and (max-width: 415px){
     

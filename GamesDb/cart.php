@@ -22,7 +22,7 @@
         $stmt->bind_param("s", $username);
         $stmt->execute();
         $result = $stmt->get_result();
-        $totalValue = 0;
+        $totalValue = 0;    
         if ($result->num_rows > 0) {
             echo '<section class="h-100">';
             echo '<div class="container h-100 py-5">';
@@ -44,7 +44,7 @@
                 $gameGenre = $row2["gameGenre"];
                 $name = $row2["name"];
                 $developer = $row2["developer"];
-                $price = $row2["price"];
+                $price = $row2["price"] * $qty;
                 $gameImage = $row2["gameImage"];
                 $totalValue = $totalValue + $price;
 
@@ -60,7 +60,7 @@
                 //echo '<input type="hidden" name="appId" value="' . $appid . '" />';
                // echo '<button class = "btn"><p class="lead fw-normal mb-2">' . $name . '</p></button';
                 //echo '</form>';
-
+                echo '<p class="lead fw-normal mb-2">'.$name.'</p>';
                 echo '<p><span class="text-muted">Genre: </span>' . $gameGenre . '</p>';
                 echo '</div>';
 
@@ -114,9 +114,7 @@
             //Checkout Button
             echo '<div class="card">';
             echo '<div class="card-body">';
-            echo '<a href="checkout.php">';
-            echo '<button type="button" class="btn btn-primary btn-block btn-lg">Checkout</button>';
-            echo '</a>';
+            echo '<a class="btn btn-primary btn-block btn-lg" href="checkout.php">Checkout</a>';
             echo '</div>';
             echo '</div>';
             echo '</div>';
@@ -138,25 +136,6 @@
             echo '</header>';
         }
         ?>
-
-
-
-
-
-
-        <!--        <header style ="height:100%;" class="masthead">
-                    <div class="container px-5 text-center">
-                        <div class="row gx-14 align-items-center">
-                            <div class="col-lg-14">
-                                <div class="mb-5 mb-lg-0 text-center text-lg-start">
-                                    <h1 class="display-4 lh-1 mb-3 text-center">Your cart is empty!</h1>
-                                    <p class="lead fw-normal text-muted mb-5 text-center"><a href="games.php"> Browse games here </a></p>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </header>-->
 <?php
 include "footer.inc.php";
 ?>
