@@ -13,19 +13,13 @@
             <div class="d-flex h-50">
                 <div class="container">                    
                     <div class="card">
-                        <div class="card-body p-4">
-                            <div class="d-flex ">                                
-                                <div class="input-group justify-content-start dropdown">
-                                    <button class="btn btn-primary dropdown-toggle" type="button" data-bs-target="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Filter by Genre
-                                    </button>
-                                    <div class="dropdown-menu" id="dropdownMenuButton">
-                                        <!--get distinct genres-->
-                                        <!--find ways to select data based on selected genre-->
+                        <div class="card-body p-4">  
+                            <form id="filterGamesForm" class="d-flex" action="" method="POST" enctype="multipart/form-data">    
+                                <div class="input-group justify-content-start">
+                                    <select class="btn dropdown-toggle" name="filter" id="filter" style="border-color: #2937f0;">
                                         <?php
-                                        include "db.inc.php";
-
-                                        echo '<a class="dropdown-item" value="all">All Games</a>';
+                                        include './db.inc.php';
+                                        echo '<option value="">All games</option>';
 
                                         $query = "SELECT DISTINCT gameGenre FROM games";
                                         $result = mysqli_query($conn, $query);
@@ -33,23 +27,23 @@
                                             // output data of each row
                                             while ($row = $result->fetch_assoc()) { // $row = array $results[x] where x is loop counter
                                                 $gameGenre = $row["gameGenre"];
-                                                echo '<a class="dropdown-item" value="' . $gameGenre . '">' . ucfirst($gameGenre) . '</a>';
+                                                echo '<option value="' . $gameGenre . '">' . ucfirst($gameGenre) . '</option>';
                                             }
                                         } else {
                                             echo "0 results";
                                         }
-                                        ?>                                        
-                                    </div>
+                                        ?>
+                                    </select>
                                 </div>
-                                <form id="searchGamesForm" class="input-group justify-content-end" action="" method="POST" enctype="multipart/form-data">
+                                <div class="input-group justify-content-end">
                                     <div class="form-outline">
                                         <input type="search" name="searchTerm" class="form-control form-control-lg" placeholder="Search for games here!"/>                                        
                                     </div>        
                                     <button id="submitBtn" type="submit" name="searchQuery" class="btn btn-primary">
                                         <i class="bi bi-search"></i>
-                                    </button>                                    
-                                </form>
-                            </div>
+                                    </button>        
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -57,21 +51,39 @@
         </section>
 
         <?php
-        if (isset($_POST['searchQuery'])) {
+        // if search term is entered and filter is selected
+        if (isset($_POST['searchQuery']) && isset($_POST['filter'])) {
             $searchTerm = $_POST['searchTerm'];
-            displayGames($searchTerm);
-        } else {
-            displayGames("");
+            $filter = $_POST['filter'];
+            displayGames($searchTerm, $filter);
+        }
+        // if search term is entered and filter is not selected
+        elseif (isset($_POST['searchQuery']) && !isset($_POST['filter'])) {
+            $searchTerm = $_POST['searchTerm'];
+            displayGames($searchTerm, "");
+        }
+        // if search term is not entered and filter is selected
+        elseif (!isset($_POST['searchQuery']) && isset($_POST['filter'])) {
+            $filter = $_POST['filter'];
+            displayGames("", $filter);
+        }
+        // if search term is not entered and filter is not selected
+        else {
+            displayGames("", "");
         }
 
-        function displayGames($search) {
+        function displayGames($search, $filter) {
             include "db.inc.php";
 
             //query the DB
-            if ($search == "") {
+            if ($search == "" && $filter == "") { // show everything
                 $query = 'SELECT * FROM games';
-            } else {
+            } elseif ($search != "" && $filter == "") { // search all possible columns
                 $query = 'SELECT * FROM games where name LIKE "%' . $search . '%" OR developer LIKE "%' . $search . '%" OR price LIKE "%' . $search . '%" OR gameGenre LIKE "%' . $search . '%";';
+            } elseif ($search == "" && $filter != "") { // show games with selected game genre
+                $query = 'SELECT * FROM games where gameGenre LIKE "%' . $filter . '%";';
+            } else { // show games given selected game genre and other search terms
+                $query = 'SELECT * FROM games where (name LIKE "%' . $search . '%" OR developer LIKE "%' . $search . '%" OR price LIKE "%' . $search . '%") AND gameGenre LIKE "%' . $filter . '%";';
             }
 
             $result = mysqli_query($conn, $query);
@@ -122,7 +134,7 @@
                     echo '</div>';
                 }
             } else {
-                echo "0 results";
+                echo "<div class='text-center'><h5>No results found!</h5></div>";
             }
 
             echo '</div>';
@@ -130,9 +142,6 @@
             echo '</section>';
         }
         ?>
-
-    </div>
-</div>
 
 
 <?php
