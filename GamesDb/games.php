@@ -14,8 +14,8 @@
                 <div class="container">                    
                     <div class="card">
                         <div class="card-body p-4">  
-                            <form id="filterGamesForm" class="d-flex" action="" method="POST" enctype="multipart/form-data">    
-                                <div class="input-group justify-content-start">
+                            <form id="filterGamesForm" action="" method="POST" enctype="multipart/form-data"> 
+                                <div id="filterGames">
                                     <select class="btn dropdown-toggle" name="filter" id="filter" style="border-color: #2937f0;">
                                         <?php
                                         include './db.inc.php';
@@ -35,9 +35,9 @@
                                         ?>
                                     </select>
                                 </div>
-                                <div class="input-group justify-content-end">
+                                <div id="searchGames">
                                     <div class="form-outline">
-                                        <input type="search" name="searchTerm" class="form-control form-control-lg" placeholder="Search for games here!"/>                                        
+                                        <input type="search" name="searchTerm" class="form-control" placeholder="Search for games here!"/>                                        
                                     </div>        
                                     <button id="submitBtn" type="submit" name="searchQuery" class="btn btn-primary">
                                         <i class="bi bi-search"></i>
@@ -144,16 +144,16 @@
         ?>
 
 
-<?php
-include "footer.inc.php";
-?>
+        <?php
+        include "footer.inc.php";
+        ?>
 
 
 
-<!-- Bootstrap core JS-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Core theme JS-->
-<script src="js/scripts.js"></script>
-<script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
-</body>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+    </body>
 </html>
