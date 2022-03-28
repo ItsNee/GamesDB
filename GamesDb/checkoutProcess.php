@@ -1,100 +1,84 @@
 
 <?php
 
-error_reporting(E_ALL);
+include "navPostLogin.inc.php";
+include "db.inc.php";
+$creditCard = $_POST['creditCard'];
+$expiry = $_POST['expiryDate'];
+$cvc = $_POST['cvc'];
 
-function validate_cc($ccNum, $type = 'all', $regex = null) {
+//check if credit card valid if valid
+if (true) {
+    $result2 = getCart($username, $conn);
+    echo $result2->num_rows;
+    if ($result2->num_rows > 0) {
 
-    $ccNum = str_replace(array('-', ' '), '', $ccNum);
-    if (mb_strlen($ccNum) < 13) {
-        return false;
-    }
+        $stmt = $conn->prepare("SELECT * FROM orders");
+        $stmt->execute();
+        $resultOrders = $stmt->get_result();
+        echo $resultOrders->num_rows;
+        //To check if the orders table is empty
+        //If not empty update with latest orderid
+        if ($resultOrders->num_rows > 0) {
+            //Add to order DB
+            $stmt = $conn->prepare("SELECT MAX(orderid) AS orderid FROM orders");
+            $stmt->execute();
 
-    if ($regex !== null) {
-        if (is_string($regex) && preg_match($regex, $ccNum)) {
-            return true;
-        }
-        return false;
-    }
-
-    $cards = array(
-        'all' => array(
-            'amex' => '/^3[4|7]\\d{13}$/',
-            'bankcard' => '/^56(10\\d\\d|022[1-5])\\d{10}$/',
-            'diners' => '/^(?:3(0[0-5]|[68]\\d)\\d{11})|(?:5[1-5]\\d{14})$/',
-            'disc' => '/^(?:6011|650\\d)\\d{12}$/',
-            'electron' => '/^(?:417500|4917\\d{2}|4913\\d{2})\\d{10}$/',
-            'enroute' => '/^2(?:014|149)\\d{11}$/',
-            'jcb' => '/^(3\\d{4}|2100|1800)\\d{11}$/',
-            'maestro' => '/^(?:5020|6\\d{3})\\d{12}$/',
-            'mc' => '/^5[1-5]\\d{14}$/',
-            'solo' => '/^(6334[5-9][0-9]|6767[0-9]{2})\\d{10}(\\d{2,3})?$/',
-            'switch' =>
-            '/^(?:49(03(0[2-9]|3[5-9])|11(0[1-2]|7[4-9]|8[1-2])|36[0-9]{2})\\d{10}(\\d{2,3})?)|(?:564182\\d{10}(\\d{2,3})?)|(6(3(33[0-4][0-9])|759[0-9]{2})\\d{10}(\\d{2,3})?)$/',
-            'visa' => '/^4\\d{12}(\\d{3})?$/',
-            'voyager' => '/^8699[0-9]{11}$/'
-        ),
-        'fast' =>
-        '/^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6011[0-9]{12}|3(?:0[0-5]|[68][0-9])[0-9]{11}|3[47][0-9]{13})$/'
-    );
-
-    if (is_array($type)) {
-        foreach ($type as $value) {
-            $regex = $cards['all'][strtolower($value)];
-
-            if (is_string($regex) && preg_match($regex, $ccNum)) {
-                return true;
+            $orderidRow = $stmt->get_result();
+            $orderidRow2 = $orderidRow->fetch_assoc();
+            $largestInt = (int) $orderidRow2['orderid'];
+            $largestOrder = $largestInt + 1;
+            $stmt2 = $conn->prepare("INSERT INTO orders (orderid, username) VALUES (?, ?)");
+            $stmt2->bind_param("ss", $largestOrder, $username);
+            $stmt2->execute();
+            $counter = 0;
+            $result3 = getCart($username, $conn);
+            while ($row = $result3->fetch_assoc()) {
+                $stmt = $conn->prepare("INSERT INTO orderDetails (orderid, appid, qty) VALUES (?, ?, ?)");
+                $appid = (int) $row['appid'];
+                $qty = (int) $row['qty'];
+                $stmt->bind_param("sss", $largestOrder, $appid, $qty);
+                $stmt->execute();
+                $counter = counter + 1;
             }
-        }
-    } elseif ($type === 'all') {
-        foreach ($cards['all'] as $value) {
-            $regex = $value;
-
-            if (is_string($regex) && preg_match($regex, $ccNum)) {
-                return true;
+            deleteCart($username, $conn);
+            header('Location: cart.php');
+        } else {
+            //Add to order DB for first entry into db
+            $one = 1;
+            $stmt2 = $conn->prepare("INSERT INTO orders (orderid, username) VALUES (?, ?)");
+            $stmt2->bind_param("ss", $one, $username);
+            $stmt2->execute();
+            $result3 = getCart($username, $conn);
+            while ($row = $result3->fetch_assoc()) {
+                $stmt = $conn->prepare("INSERT INTO orderDetails (orderid, appid, qty) VALUES (?, ?, ?)");
+                $appid = (int) $row['appid'];
+                $qty = (int) $row['qty'];
+                $stmt->bind_param("sss", $one, $appid, $qty);
+                $stmt->execute();
             }
+            deleteCart($username, $conn);
+            header('Location: cart.php');
         }
     } else {
-        $regex = $cards['fast'];
-
-        if (is_string($regex) && preg_match($regex, $ccNum)) {
-            return true;
-        }
+        header('Location: cart.php');
     }
-    return false;
+} 
+else {
+    echo "credit card wrong";
 }
 
-$test_cc = array(
-    '34534trdsgfdgdfxgfdg3w653w45', // in valid
-    '378282246310005', // valid
-    '371449635398431', // valid
-    '134449635398431', // in valid
-    '6011111111111117', // valid 
-    '5105105105105100', // valid
-    '4222222222222', // valid
-    '4012888888881881', // valid
-    'asdfasdsadsadsdas', // in valid
-    '30569309025904', // valid
-    '3530111333300000', // valid
-    '12345678912345', // in valid
-    '4070912798591', // valid
-    '4716699760542841', // valid
-    '3528503483993101', // valid
-    '180000193805365', // valid
-    '4556915563181808',
-);
-
-if (validate_cc('4556915563181808', 'all')) {
-        echo '4556915563181808' . ' <span style="color:green;">VALID</span>';
-    } 
-    
-foreach ($test_cc as $card_num) {
-    echo $card_num;
-    if (validate_cc($card_num, 'all')) {
-        echo $card_num . ' <span style="color:green;">VALID</span>';
-    } else {
-        echo $card_num . ' <span style="color:red;">INVALID</span>';
-    }
-    echo '<br>';
+function getCart($username, $conn) {
+    $stmt = $conn->prepare("SELECT * FROM cart WHERE username=?");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result;
 }
- ?>
+
+function deleteCart($username, $conn) {
+    $stmt = $conn->prepare("DELETE FROM cart WHERE username=?");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+}
+?>
