@@ -53,18 +53,18 @@
         <?php
         // if search term is entered and filter is selected
         if (isset($_POST['searchQuery']) && isset($_POST['filter'])) {
-            $searchTerm = $_POST['searchTerm'];
-            $filter = $_POST['filter'];
+            $searchTerm = sanitize_input($_POST['searchTerm']);
+            $filter = sanitize_input($_POST['filter']);
             displayGames($searchTerm, $filter);
         }
         // if search term is entered and filter is not selected
         elseif (isset($_POST['searchQuery']) && !isset($_POST['filter'])) {
-            $searchTerm = $_POST['searchTerm'];
+            $searchTerm = sanitize_input($_POST['searchTerm']);
             displayGames($searchTerm, "");
         }
         // if search term is not entered and filter is selected
         elseif (!isset($_POST['searchQuery']) && isset($_POST['filter'])) {
-            $filter = $_POST['filter'];
+            $filter = sanitize_input($_POST['filter']);
             displayGames("", $filter);
         }
         // if search term is not entered and filter is not selected
@@ -100,6 +100,7 @@
                     $developer = $row["developer"];
                     $positiveVotes = $row["positiveVotes"];
                     $negativeVotes = $row["negativeVotes"];
+                    $totalVotes = $positiveVotes + $negativeVotes; // to show ratings upon 5 stars
                     $price = $row["price"];
                     $gameImage = $row["gameImage"];
 
@@ -113,6 +114,36 @@
                     echo '<!--Product name-->';
                     echo '<h5 class = "fw-bolder">' . ucfirst($name) . '</h5>';
                     echo '<p class = "card-text">' . ucfirst($gameGenre) . '</p>';
+                    echo '<!--Product ratings-->';
+                    $rating = ($positiveVotes / $totalVotes) * 5;
+                    $rating_quotient = intdiv($rating, 1);
+                    $rating_remainder = $rating / 1;
+
+                    $rating_remainder = $rating_remainder - floor($rating_remainder);
+                    if ($rating_remainder >= 0.5) {
+                        $rating_remainder = 1;
+                    } else {
+                        $rating_remainder = 0;
+                    }
+                    
+                    echo '<p class = "card-text">';
+                    
+                    // full stars
+                    for ($x = 0; $x < $rating_quotient; $x++) {
+                        echo '<i class="bi bi-star-fill"></i>';
+                    }
+                    
+                    // half stars
+                    for ($x = 0; $x < $rating_remainder; $x++) {
+                        echo '<i class="bi bi-star-half"></i>';
+                    }
+                    
+                    // empty stars
+                    for ($x = 0; $x < 5 - ($rating_quotient + $rating_remainder); $x++) {
+                        echo '<i class="bi bi-star"></i>';
+                    }                    
+                    echo '</p>';
+
                     echo '<!--Product price-->';
                     // if price == 0, display 'Free to play!' instead of $0
                     if ($price == '0') {
@@ -141,14 +172,19 @@
             echo '</div>';
             echo '</section>';
         }
-        ?>
 
+        //Helper function that checks input for malicious or unwanted content.
+        function sanitize_input($data) {
+            $data = trim($data);
+            $data = stripslashes($data);
+            $data = htmlspecialchars($data);
+            return $data;
+        }
+        ?>
 
         <?php
         include "footer.inc.php";
         ?>
-
-
 
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
