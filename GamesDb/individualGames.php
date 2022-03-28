@@ -73,21 +73,56 @@
                 echo '<br>';
                 echo '<div class = "card-footer p-4 pt-0 border-top-0 bg-transparent">';
 
+                
+                
+                echo '<div class="d-flex justify-content-center">';
+                echo '<div style="display:block;padding: 0.375rem 0.75rem;">';
                 // IDEA: if user havent buy, show add to cart button
                 // can get this data from ORDERS table
                 echo '<form id = "addToCartForm" name = "addToCartForm" action = "addToCart.php" method = "POST" enctype = "multipart/form-data">';
                 echo '<input type = "hidden" name = "appId" value = "' . $appId . '" />';
-                echo '<div class="d-flex justify-content-center">';
-                echo '<div style="display:block;padding: 0.375rem 0.75rem;">';
                 // if price == 0, display 'Free to play!' instead of $0
                 if ($price == '0') {
                     echo 'Free to play!';
                 } else {
                     echo '$' . $price;
                 }
-                echo '</div>'; // price to be side by side with add to cart button
-                echo '<button class = "btn btn-outline-success " type = "submit">Add to Cart!</button></div>';
+                echo '</div>';
+                echo '<button class = "btn btn-outline-success " type = "submit">Add to Cart!</button>';
                 echo '</form>';
+                 // price to be side by side with add to cart button
+                echo '&nbsp;';
+                // add favourites
+                echo '<div style="padding: 0.375rem">';
+                echo '<input type = "hidden" name = "appId" value = "' . $appId . '" />';
+                echo '<button type="submit" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#addFavModal">';
+                echo '<i class="bi bi-star"></i>';
+                echo '</button>';
+                echo '</div>';
+                
+                // add favourites modal popup
+                echo '<div class="modal fade" id="addFavModal" tabindex="-1" aria-labelledby="addFavModalLabel" aria-hidden="true">';
+                echo '<div class="modal-dialog">';
+                echo '<div class="modal-content">';
+                echo '<div class="modal-header">';
+                echo '<h5 class="modal-title" id="addFavModalLabel">Add to Favourites</h5>';
+                echo '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
+                echo '</div>';
+                echo '<div class="modal-body">';
+                echo 'Are you sure you want to add this game to Favourites?';
+                echo '</div>';
+                echo '<div class="modal-footer">';
+                echo '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>';
+                echo '<form id="addFavForm" name="addFavForm" action="addFavourites.php" method="POST" enctype="multipart/form-data">';
+                echo '<input type="hidden" name="appId" value="' . $appId . '" />';
+                echo '<button type="submit" class="btn btn-primary"">Confirm</button>';
+                echo '</form>';
+                echo '</div>';
+                echo '</div>';
+                echo '</div>';
+                echo '</div>';
+                
+                echo '</div>';
                 echo '</div>'; // closing tag for col-md-8
                 echo '</div>'; // closing tag for row
 //                echo '</div>';
