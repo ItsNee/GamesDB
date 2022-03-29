@@ -109,7 +109,7 @@
                 echo '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
                 echo '</div>';
                 echo '<div class="modal-body">';
-                echo 'Are you sure you want to add this game to Favourites?';
+                echo 'Are you sure you want to add ' . $name . ' to Favourites?';
                 echo '</div>';
                 echo '<div class="modal-footer">';
                 echo '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>';
