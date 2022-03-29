@@ -48,41 +48,20 @@
                     echo '<div class = "col mb-5">';
                     echo '<div class = "card h-100">';
                     echo '<!--Product image-->';
-                    echo '<img class = "card-img-top" src="' . $gameImage . '" alt="Image of ' . ucfirst($name) . '" />';
+                    echo '<img class = "card-img-top" src="' . $gameImage . '" alt="Image of ' . $name. '" />';
                     echo '<!--Product details-->';
                     echo '<div class = "card-body p-4">';
                     echo '<div class = "text-center">';
                     echo '<!--Product name-->';
-                    echo '<h5 class = "fw-bolder">' . ucfirst($name) . '</h5>';
+                    echo '<h5 class = "fw-bolder">' . $name . '</h5>';
                     echo '</div>';
                     echo '</div>';
                     echo '<!--Product actions-->';
                     echo '<div class = "card-footer p-4 pt-0 border-top-0 bg-transparent">';
-                    echo '<input type="hidden" name="appId" value="' . $appId . '" />';
-                    echo '<div class = "text-center"><button class = "btn btn-outline-primary mt-auto" type="submit" data-bs-toggle="modal" data-bs-target="#removeFavModal">Remove</button></div>';
-             
-                    //modal popup
-                    echo '<div class="modal fade" id="removeFavModal" tabindex="-1" aria-labelledby="removeFavModalLabel" aria-hidden="true">';
-                    echo '<div class="modal-dialog">';
-                    echo '<div class="modal-content">';
-                    echo '<div class="modal-header">';
-                    echo '<h5 class="modal-title" id="exampleModalLabel">Remove from Favourites?</h5>';
-                    echo '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
-                    echo '</div>';
-                    echo '<div class="modal-body">';
-                    echo 'Are you sure you want to remove this game from Favourites?';
-                    echo '</div>';
-                    echo '<div class="modal-footer">';
-                    echo '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>';
                     echo '<form id="removeFavForm" name="removeFavForm" action="removeFavourites.php" method="POST" enctype="multipart/form-data">';
                     echo '<input type="hidden" name="appId" value="' . $appId . '" />';
-                    echo '<button type="submit" class="btn btn-primary"">Remove</button>';
+                    echo '<div class = "text-center"><button class = "btn btn-outline-primary mt-auto" name="removeFav" type="submit">Remove</button></div>';
                     echo '</form>';
-                    echo '</div>';
-                    echo '</div>';
-                    echo '</div>';
-                    echo '</div>';
-                    
                     echo '</div>';
                     echo '</div>';
                     echo '</div>';
