@@ -3,17 +3,80 @@
 
 include "navPostLogin.inc.php";
 include "db.inc.php";
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+session_start();
+if (isset($_SESSION['username']) == true) {
+    $username = $_SESSION['username'];
+    $email = $_SESSION['email'];
+} else {
+    header("location: index.php");
+}
+
+require 'PHPMailer-master/src/Exception.php';
+require 'PHPMailer-master/src/PHPMailer.php';
+require 'PHPMailer-master/src/SMTP.php';
 $creditCard = $_POST['creditCard'];
 $expiry = $_POST['expiryDate'];
 $cvc = $_POST['cvc'];
 $CCchecker = CCValidate($creditCard);
 
-
 //check if credit card valid if valid
 if ($CCchecker == 1) {
     $result2 = getCart($username, $conn);
     echo $result2->num_rows;
+    $coder = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"><table class="table"><thead><tr><th scope="col">#</th><th scope="col">Game Name</th><th scope="col">Price</th></tr></thead><tbody>';
+    $counter = 1;
     if ($result2->num_rows > 0) {
+        $query = "SELECT * FROM cart WHERE username='$username'";
+        echo $query;
+        $result = mysqli_query($conn, $query);
+        if ($result->num_rows > 0) {
+            // output data of each row
+            while ($row = $result->fetch_assoc()) {
+                $appid = $row["appid"];
+                $query2 = "SELECT * FROM games WHERE appid='$appid'" ;
+                echo $appid;
+                $result2 = mysqli_query($conn, $query2);
+                if ($result2->num_rows > 0) {
+                    // output data of each row
+                    while ($row2 = $result2->fetch_assoc()) {
+                        $name = $row2["name"];
+                        echo $name;
+                        $price = $row2["price"];
+                        $coder .= '<tr><th scope="row">' . $counter . '</th><td>' . $name . '</td><td>' . $price . '</td></tr>';
+                        $counter = $counter + 1;
+                    }
+                }
+            }
+        }
+        $coder .= '</tbody></table>';
+        //echo $coder;
+        $mail = new PHPMailer();
+        $mail->IsSMTP();
+        $mail->Mailer = "smtp";
+        $mail->SMTPDebug = 0;
+        $mail->SMTPAuth = TRUE;
+        $mail->SMTPSecure = "tls";
+        $mail->Port = 587;
+        $mail->Host = "smtp.gmail.com";
+        $mail->Username = "GamesDB.ICT1004@gmail.com";
+        $mail->Password = "HC1ge@rV^jKU";
+        $mail->IsHTML(true);
+        $mail->AddAddress($email, "Customer");
+        $mail->SetFrom("Accounts@GamesDb.com", "GamesDb Accounts Department");
+        $mail->Subject = "GamesDb Order Confirmation";
+        $content = $coder;
+        $mail->MsgHTML($content);
+        if (!$mail->Send()) {
+            echo "Error while sending Email.";
+            //var_dump($mail);
+        } else {
+            echo "Email sent successfully";
+        }
+
 
         $stmt = $conn->prepare("SELECT * FROM orders");
         $stmt->execute();
