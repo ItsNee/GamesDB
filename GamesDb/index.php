@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-<?php
-include "head.inc.php";
-?>
-    <body id="page-top">
     <?php
-    include "nav.inc.php";
+    include "head.inc.php";
     ?>
+    <body id="page-top">
+        <?php
+        include "nav.inc.php";
+        ?>
         <!-- Masthead header-->
         <header class="masthead">
             <div class="container px-5">
@@ -151,9 +151,9 @@ include "head.inc.php";
                 </div>
             </div>
         </section>
-<?php
-include "footer.inc.php";
-?>
+        <?php
+        include "footer.inc.php";
+        ?>
         <!-- signIn Modal-->
         <div class="modal fade" id="signInModal" tabindex="-1" aria-labelledby="signInModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -182,6 +182,8 @@ include "footer.inc.php";
                                 <label for="password">2fa code</label>
                                 <div class="invalid-feedback" data-sb-feedback="password:required">Enter 2fa code from TOTP app</div>
                             </div>
+                            <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+                            <div class="g-recaptcha" data-sitekey="6LdrwScfAAAAAEfCS7I7386reCt5aRhDzZJgB5Gt"></div>
                             <!-- Submit Button-->
                             <div class="d-grid"><button class="btn btn-primary rounded-pill btn-lg" id="submitButton" type="submit">Submit</button></div>
                         </form>
@@ -234,6 +236,8 @@ include "footer.inc.php";
                                     <br>
                                 </div>
                             </div>
+                            <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+                            <div class="g-recaptcha" data-sitekey="6LdrwScfAAAAAEfCS7I7386reCt5aRhDzZJgB5Gt"></div>
                             <!-- Submit Button-->
                             <div class="d-grid"><button class="btn btn-primary rounded-pill btn-lg" id="registerButton" name="registerButton" type="submit">Register!</button></div>
                         </form>
