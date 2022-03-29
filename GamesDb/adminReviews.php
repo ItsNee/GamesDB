@@ -6,96 +6,37 @@ if ($_SESSION['isAdmin'] == "1") {
     header("location: index.php");
 }
 include "db.inc.php";
-if (isset($_POST['adminUpdateAccount'])) {
-    $inputSuccess = true; //specify a variable which will initially be true, and set to false if the input fails the validation checks
-    $email = $_REQUEST['updateEmail'];
-    $email = mysqli_real_escape_string($conn, $email);
-    $f2aSSecret = $_REQUEST['update2faSecret'];
-    $updatedProfilePic = $_REQUEST['updateProfilePic'];
-    if (!preg_match("/[a-zA-Z0-9_\-]+@([a-zA-Z_\-])+[.]+[a-zA-Z]{2,4}/", $email)) { //this regex will validate if the user email matches the format of an email i.e example@email.com
-        $error = base64_encode("Check your email format and try again");
-        header("location: 404.php?error=" . $errorMsg);
-        $inputSuccess = false;
-    } else {
-        $query = $conn->prepare("UPDATE users SET email=?, 2faSecret=?, profilePic=? WHERE username=?"); //prepared statement
-        $query->bind_param("ssss", $email, $f2aSSecret, $updatedProfilePic, $_REQUEST['updateUsername']); //bind the parameters
-        if (!$query->execute()) {
-            $errorMsg = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
-            $success = false;
-            echo $errorMsg;
-            $error = base64_encode("Account Update failed, please try again.");
-            header("location: 404.php?error=" . $errorMsg);
-        } else {
-            $success = true;
-        }
-    }
-} elseif (isset($_POST['adminUpdateRemoveAdmin'])) {
 
-    $query = $conn->prepare("UPDATE users SET isAdmin=0 WHERE username=?"); //prepared statement
-    $query->bind_param("s", $_REQUEST['username4Edit']); //bind the parameters
+if (isset($_POST['adminUpdateReview'])) {
+    $review = $_REQUEST['updateReview'];
+    $query = $conn->prepare("UPDATE reviews SET review=? WHERE users_username=? AND games_appid=?"); //prepared statement
+    $query->bind_param("ssi", $review, $_REQUEST['username4Edit'], $_REQUEST['updateAppId']); //bind the parameters
     if (!$query->execute()) {
-        $errorMsg = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+        $errorMsg = "Execute failed: (" . $query->errno . ") " . $query->error;
         $success = false;
         echo $errorMsg;
-        $error = base64_encode("Account Update failed, please try again.");
+        $error = base64_encode("Review Update failed, please try again.");
         header("location: 404.php?error=" . $errorMsg);
     } else {
         $success = true;
     }
-} elseif (isset($_POST['adminUpdateMakeAdmin'])) {
-
-    $query = $conn->prepare("UPDATE users SET isAdmin=1 WHERE username=?"); //prepared statement
-    $query->bind_param("s", $_REQUEST['username4Edit']); //bind the parameters
+} elseif (isset($_POST['adminUpdateDeleteReview'])) {
+    $username = $_REQUEST['username4Edit'];
+    $appId = $_REQUEST['appId4Edit'];    
+    $query = $conn->prepare("DELETE FROM reviews WHERE users_username=? AND games_appid=?"); //prepared statement
+    $query->bind_param("si", $username, $appId); //bind the parameters
     if (!$query->execute()) {
-        $errorMsg = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+        $errorMsg = "Execute failed: (" . $query->errno . ") " . $query->error;
         $success = false;
         echo $errorMsg;
-        $error = base64_encode("Account Update failed, please try again.");
-        header("location: 404.php?error=" . $errorMsg);
-    } else {
-        $success = true;
-    }
-}elseif (isset($_POST['adminUpdateRemoveActivate'])) {
-
-    $query = $conn->prepare("UPDATE users SET isActivated=0 WHERE username=?"); //prepared statement
-    $query->bind_param("s", $_REQUEST['username4Edit']); //bind the parameters
-    if (!$query->execute()) {
-        $errorMsg = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
-        $success = false;
-        echo $errorMsg;
-        $error = base64_encode("Account Update failed, please try again.");
-        header("location: 404.php?error=" . $errorMsg);
-    } else {
-        $success = true;
-    }
-}elseif (isset($_POST['adminUpdateEnableActivate'])) {
-
-    $query = $conn->prepare("UPDATE users SET isActivated=1 WHERE username=?"); //prepared statement
-    $query->bind_param("s", $_REQUEST['username4Edit']); //bind the parameters
-    if (!$query->execute()) {
-        $errorMsg = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
-        $success = false;
-        echo $errorMsg;
-        $error = base64_encode("Account Update failed, please try again.");
-        header("location: 404.php?error=" . $errorMsg);
-    } else {
-        $success = true;
-    }
-}elseif (isset($_POST['adminUpdateDeleteAccount'])) {
-
-    $query = $conn->prepare("DELETE FROM users WHERE username=?"); //prepared statement
-    $query->bind_param("s", $_REQUEST['username4Edit']); //bind the parameters
-    if (!$query->execute()) {
-        $errorMsg = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
-        $success = false;
-        echo $errorMsg;
-        $error = base64_encode("Account Update failed, please try again.");
+        $error = base64_encode("Review Delete failed, please try again.");
         header("location: 404.php?error=" . $errorMsg);
     } else {
         $success = true;
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
 
@@ -109,7 +50,7 @@ if (isset($_POST['adminUpdateAccount'])) {
         <meta name="description"
               content="GamesDB Admin Page">
         <meta name="robots" content="noindex,nofollow">
-        <title>GamesDB Admin Page</title>
+        <title>GamesDB Admin Review Page</title>
         <!-- Favicon icon -->
         <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon.ico">
         <!-- Custom CSS -->
@@ -307,70 +248,39 @@ if (isset($_POST['adminUpdateAccount'])) {
                                             <tr>
                                                 <th class="border-top-0">#</th>
                                                 <th class="border-top-0">Username</th>
-                                                <th class="border-top-0">Email</th>
-                                                <th class="border-top-0">Password</th>
-                                                <th class="border-top-0">2fa Secret</th>
-                                                <th class="border-top-0">Profile Pic</th>
-                                                <th class="border-top-0">Update</th>
-                                                <th class="border-top-0">Is Admin</th>
-                                                <th class="border-top-0">Is Activated</th>
+                                                <th class="border-top-0">App ID</th>
+                                                <th class="border-top-0">Reviews</th>                                                
+                                                <th class="border-top-0">Update</th>                                                
                                                 <th class="border-top-0">Delete</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                            $query = "SELECT * FROM users ";
+                                            $query = "SELECT * FROM reviews";
                                             $result = mysqli_query($conn, $query);
                                             if ($result->num_rows > 0) {
                                                 // output data of each row
                                                 $counter = 1;
                                                 while ($row = $result->fetch_assoc()) {
-                                                    $username = $row["username"];
-                                                    $password = $row["password"];
-                                                    $profilePic = $row["profilePic"];
-                                                    $f2asecret = $row["2faSecret"];
-                                                    $isAdmin = $row["isAdmin"];
-                                                    $isActivated = $row["isActivated"];
-                                                    $email = $row["email"];
+                                                    $username = $row["users_username"];
+                                                    $appId = $row["games_appid"];
+                                                    $review = $row["review"];                                                    
                                                     ?>
                                                     <tr>
                                                 <form action="" method="POST" enctype='multipart/form-data'>
                                                     <td><?php print_r($counter) ?></td>
                                                     <td class="txt-oflo"><input class="form-control" id="inputUsername" type="text" placeholder="Enter your username" name="updateUsername" value="<?php print_r($username) ?>" readonly></td>
-                                                    <td class="txt-oflo"><input class="form-control" id="inputUsername" type="text" placeholder="Enter your username" name="updateEmail" value="<?php print_r($email) ?>" ></td>
-                                                    <td class="txt-oflo"><input class="form-control" id="inputUsername" type="text" placeholder="Enter your username" name="updatePassword" value="<?php print_r($password) ?>" readonly></td>
-                                                    <td class="txt-oflo"><input class="form-control" id="inputUsername" type="text" placeholder="Enter your username" name="update2faSecret" value="<?php print_r($f2asecret) ?>" ></td>
-                                                    <td class="txt-oflo"><input class="form-control" id="inputUsername" type="text" placeholder="Enter your username" name="updateProfilePic" value="<?php print_r($profilePic) ?>" ></td>
+                                                    <td class="txt-oflo"><input class="form-control" id="inputUsername" type="text" placeholder="Enter your username" name="updateAppId" value="<?php print_r($appId) ?>" readonly></td>
+                                                    <td class="txt-oflo"><input class="form-control" id="inputUsername" type="text" placeholder="Enter your username" name="updateReview" value="<?php print_r($review) ?>"></td>
+                                                    
                                                     <input type="hidden" name="username4Edit" value="<?php print_r($username) ?>" />
-                                                    <td> <button class="btn btn-success" name="adminUpdateAccount" type="submit">Update</button></td>
-                                                </form>
-                                                <?php if ($isAdmin == "1") { ?>
-                                                    <form action="" method="POST" enctype='multipart/form-data'>
-                                                        <input type="hidden" name="username4Edit" value="<?php print_r($username) ?>" />
-                                                        <td class="txt-oflo"><button class="btn btn-outline-danger" name="adminUpdateRemoveAdmin" type="submit">Remove Admin</button></td>
-                                                    </form>
-                                                <?php } elseif ($isAdmin == "0") { ?>
-                                                    <form action="" method="POST" enctype='multipart/form-data'>
-                                                        <input type="hidden" name="username4Edit" value="<?php print_r($username) ?>" />
-                                                        <td class="txt-oflo"><button class="btn btn-outline-success" name="adminUpdateMakeAdmin" type="submit">Make Admin</button></td>
-                                                    </form>
-                                                <?php } ?>
-                                        
-                                                <?php if ($isActivated == "1") { ?>
-                                                    <form action="" method="POST" enctype='multipart/form-data'>
-                                                        <input type="hidden" name="username4Edit" value="<?php print_r($username) ?>" />
-                                                        <td class="txt-oflo"><button class="btn btn-outline-danger" name="adminUpdateRemoveActivate" type="submit">Deactivate Account</button></td>
-                                                    </form>
-                                                <?php } elseif ($isActivated == "0") { ?>
-                                                    <form action="" method="POST" enctype='multipart/form-data'>
-                                                        <input type="hidden" name="username4Edit" value="<?php print_r($username) ?>" />
-                                                        <td class="txt-oflo"><button class="btn btn-outline-success" name="adminUpdateEnableActivate" type="submit">Activate Account</button></td>
-                                                    </form>
-                                                <?php } ?>
-                                                    <form action="" method="POST" enctype='multipart/form-data'>
-                                                        <input type="hidden" name="username4Edit" value="<?php print_r($username) ?>" />
-                                                        <td class="txt-oflo"><button class="btn btn-outline-danger" name="adminUpdateDeleteAccount" type="submit">Delete Account</button></td>
-                                                    </form>
+                                                    <td> <button class="btn btn-success" name="adminUpdateReview" type="submit">Update</button></td>
+                                                </form>                                        
+                                                <form action="" method="POST" enctype='multipart/form-data'>
+                                                    <input type="hidden" name="username4Edit" value="<?php print_r($username) ?>" />
+                                                    <input type="hidden" name="appId4Edit" value="<?php print_r($appId) ?>" />
+                                                    <td class="txt-oflo"><button class="btn btn-outline-danger" name="adminUpdateDeleteReview" type="submit">Delete Review</button></td>
+                                                </form>       
                                                 </tr>
                                                 <?php
                                                 $counter += 1;

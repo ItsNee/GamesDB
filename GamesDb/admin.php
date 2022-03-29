@@ -100,6 +100,13 @@ if ($_SESSION['isAdmin'] == "1") {
                                 <span class="hide-menu">Users</span>
                             </a>
                         </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="adminReviews.php"
+                                aria-expanded="false">
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                                <span class="hide-menu">Reviews</span>
+                            </a>
+                        </li>
                     </ul>
 
                 </nav>
