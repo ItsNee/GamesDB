@@ -54,13 +54,13 @@
             echo '<form id="checkoutForm" name="checkoutForm" action="checkoutProcess.php" method="POST" enctype="multipart/form-data">';
             echo '<div class="card">';
             echo '<div class="card-body payment-card-body"> <span class="font-weight-normal card-text">Card Number</span>';
-            echo '<div class="input"> <i class="fa fa-credit-card"></i> <input type="text" class="form-control" placeholder="0000 0000 0000 0000" name="creditCard" maxlength="16"> </div>';
+            echo '<div class="input"> <i class="fa fa-credit-card"></i> <input type="text" class="form-control" placeholder="0000000000000000" name="creditCard" minlength="16" maxlength="16" required> </div>';
             echo '<div class="row mt-3 mb-3">';
             echo '<div class="col-md-6"> <span class="font-weight-normal card-text">Expiry Date</span>';
-            echo '<div class="input"> <i class="fa fa-calendar"></i> <input name="expiryDate" type="text" class="form-control" placeholder="MM/YY" maxlength="4"> </div>';
+            echo '<div class="input"> <i class="fa fa-calendar"></i> <input name="expiryDate" type="text" class="form-control" placeholder="MM/YY" maxlength="4" minlength="4" required> </div>';
             echo '</div>';
             echo '<div class="col-md-6"> <span class="font-weight-normal card-text">CVC/CVV</span>';
-            echo '<div class="input"> <i class="fa fa-lock"></i> <input name="cvc" type="text" class="form-control" placeholder="000" maxlength="3"> </div>';
+            echo '<div class="input"> <i class="fa fa-lock"></i> <input name="cvc" type="text" class="form-control" placeholder="000" minlength="3" maxlength="3" required> </div>';
             echo '</div>';
             echo '</div> <span class="text-muted certificate-text"><i class="fa fa-lock"></i> Your transaction is secured with ssl certificate</span>';
             echo '</div>';

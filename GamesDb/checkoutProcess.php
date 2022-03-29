@@ -6,9 +6,11 @@ include "db.inc.php";
 $creditCard = $_POST['creditCard'];
 $expiry = $_POST['expiryDate'];
 $cvc = $_POST['cvc'];
+$CCchecker = CCValidate($creditCard);
+
 
 //check if credit card valid if valid
-if (true) {
+if ($CCchecker == 1) {
     $result2 = getCart($username, $conn);
     echo $result2->num_rows;
     if ($result2->num_rows > 0) {
@@ -63,8 +65,7 @@ if (true) {
     } else {
         header('Location: cart.php');
     }
-} 
-else {
+} else {
     echo "credit card wrong";
 }
 
@@ -80,5 +81,34 @@ function deleteCart($username, $conn) {
     $stmt = $conn->prepare("DELETE FROM cart WHERE username=?");
     $stmt->bind_param("s", $username);
     $stmt->execute();
+}
+
+function CCValidate($num) {
+    $patternMaster = "/^5[1-5]\\d{14}$/"; //Mastercard
+    $patternVisa = "/^4\\d{12}(\\d{3})?$/"; //Visa
+    if (preg_match($patternMaster, $num) || preg_match($patternVisa, $num)) {
+        if (LuhnCheck($num)) {
+            return 1;
+        } else {
+            return 0;
+        }
+    } else {
+        return 0;
+    }
+}
+
+function LuhnCheck($strDigits) {
+    $sum = 0;
+    $alt = false;
+    for ($i = strlen($strDigits) - 1; $i >= 0; $i--) {
+        if ($alt) {
+            $temp = $strDigits[$i];
+            $temp *= 2;
+            $strDigits[$i] = ($temp > 9) ? $temp = $temp - 9 : $temp;
+        }
+        $sum += $strDigits[$i];
+        $alt = !$alt;
+    }
+    return $sum % 10 == 0;
 }
 ?>
