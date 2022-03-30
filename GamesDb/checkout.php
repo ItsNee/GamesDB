@@ -55,6 +55,7 @@
             echo '<div class="card">';
             echo '<div class="card-body payment-card-body"> <span class="font-weight-normal card-text">Card Number</span>';
             echo '<div class="input"> <i class="fa fa-credit-card"></i> <input type="text" class="form-control" placeholder="0000000000000000" name="creditCard" minlength="16" maxlength="16" required> </div>';
+            
             echo '<div class="row mt-3 mb-3">';
             echo '<div class="col-md-6"> <span class="font-weight-normal card-text">Expiry Date</span>';
             echo '<div class="input"> <i class="fa fa-calendar"></i> <input name="expiryDate" type="text" class="form-control" placeholder="MM/YY" maxlength="4" minlength="4" required> </div>';
