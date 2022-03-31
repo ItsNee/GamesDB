@@ -12,7 +12,7 @@
         include "db.inc.php";
         $appId = (int) $_POST['appId'];
         $gameQty = (int) $_POST['gameQty'];
-        if ($gameQty == 0) {
+        if ($gameQty <= 0 ) {
             $sql = "DELETE FROM cart WHERE appid=". $appId;
             $conn->query($sql);
         } else {

@@ -22,16 +22,16 @@
         use PHPMailer\PHPMailer\PHPMailer;
         use PHPMailer\PHPMailer\Exception;
 
-        require 'PHPMailer-master/src/Exception.php';
+require 'PHPMailer-master/src/Exception.php';
         require 'PHPMailer-master/src/PHPMailer.php';
         require 'PHPMailer-master/src/SMTP.php';
         $creditCard = $_POST['creditCard'];
         $expiry = $_POST['expiryDate'];
         $cvc = $_POST['cvc'];
         $CCchecker = CCValidate($creditCard);
-
-//check if credit card valid if valid
-        if ($CCchecker == 1) {
+        $ExpiryChecker = checkerExpiry($expiry);
+        //check if credit card valid if valid
+        if ($CCchecker == 1 && $ExpiryChecker == 1) {
             $result2 = getCart($username, $conn);
             $coder = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"><table class="table"><thead><tr><th scope="col">#</th><th scope="col">Game Name</th><th scope="col">Price</th></tr></thead><tbody>';
             $counter = 1;
@@ -108,10 +108,9 @@
                         $stmt->bind_param("sss", $largestOrder, $appid, $qty);
                         $stmt->execute();
                         $counter = counter + 1;
-
-                        echoText();
                     }
                     deleteCart($username, $conn);
+                    echoText();
                 } else {
                     //Add to order DB for first entry into db
                     $one = 1;
@@ -127,7 +126,7 @@
                         $stmt->execute();
                     }
                     deleteCart($username, $conn);
-                    
+
                     echoText();
                 }
             } else {
@@ -207,6 +206,19 @@
             echo '</div>';
             echo '</div>';
             echo '</header>';
+        }
+
+        use DateTime;
+
+        function checkerExpiry($expiry) {
+            $expires = DateTime::createFromFormat('my',$expiry);
+            $now = new DateTime();
+
+            if ($expires < $now) {
+                return 0;
+            } else {
+                return 1;
+            }
         }
         ?>
 
