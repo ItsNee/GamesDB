@@ -18,20 +18,16 @@
 
         <?php
         include "db.inc.php";
-        $orderid = (int)$_POST['orderid'];
+        $orderid = sanitize_input($_POST['orderid']);
+        $orderid = (int)$orderid;
         if ($orderid == NULL){
             header('Location: index.php');
         }
         echo $orderid;
-        echo 'hrerere'; 
         $stmt = $conn->prepare("SELECT * FROM orderDetails WHERE orderid=?");
-        echo 'hrerere'; 
         $stmt->bind_param("s", $orderid);
-        echo 'hrerere'; 
         $stmt->execute();
-        echo 'hrerere'; 
         $result = $stmt->get_result();
-        echo 'hrerere';     
         $totalValue = 0;    
         if ($result->num_rows > 0) {
             echo '<section class="h-100">';
@@ -119,6 +115,13 @@
         } else {
             header('Location: orders.php');
         }
+        
+        function sanitize_input($data) {
+                $data = trim($data);
+                $data = stripslashes($data);
+                $data = htmlspecialchars($data);
+                return $data;
+            }
         ?>
     
 <?php

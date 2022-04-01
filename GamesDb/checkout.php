@@ -31,6 +31,7 @@
             echo '<div class="card">';
             echo '';
             echo '<div class="box">';
+            echo '<form action = "paypal.php" method = "POST" enctype = "multipart/form-data">';
             echo '<button class="paypal-button">';
             echo '<span class="paypal-button-title">';
             echo 'Checkout with ';
@@ -39,6 +40,7 @@
             echo '<i class = "color1">Pay</i><i class = "color2">Pal</i>';
             echo '</span>';
             echo '</button>';
+            echo '</form>';
             echo '</div>';
             echo '';
             echo '</div>';

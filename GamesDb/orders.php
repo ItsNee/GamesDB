@@ -24,17 +24,33 @@
             echo '</div>';
             while ($row = $result->fetch_assoc()) {
                 $orderid = $row["orderid"];
-
-
+                $orderdate = $row["orderdate"];
                 echo '<div class="card rounded-3 mb-4">';
                 echo '<div class="card-body p-4">';
                 echo '<div class="row d-flex justify-content-between align-items-center">';
                 echo '<div class="col-md-5 col-lg-5 col-xl-5">';
                 echo '<p class="lead fw-normal mb-2">Order #' . $orderid . '</p>';
+                echo '<span class="text-muted">Games:</span></br>';
+                $stmt = $conn->prepare("SELECT * FROM orderDetails WHERE orderid=?");
+                $stmt->bind_param("s", $orderid);
+                $stmt->execute();
+                $result2 = $stmt->get_result();
+                while ($row = $result2->fetch_assoc()) {
+                    $appid = $row["appid"];
+                    $stmt = $conn->prepare("SELECT * FROM games WHERE appid=?");
+                    $stmt->bind_param("s", $appid);
+                    $stmt->execute();
+                    $result3 = $stmt->get_result();
+                    while ($row = $result3->fetch_assoc()) {
+                        echo '<span class="text-muted">'.$row["name"].'</span></br>';
+                    }
+                }
                 echo '</div>';
 
-                //Update Button
-                echo '<div class="col-md-3 col-lg-3 col-xl-2 d-flex">';
+                //Order date
+                echo '<div class="orderDate col-md-3 col-lg-3 col-xl-3">';
+                echo '<p class="lead fw-normal mb-2">Date:</p>';
+                echo '<span class="text-muted">'.$orderdate.'</span></br>';
                 echo '</div>';
 
                 //Button to check individual order
@@ -45,13 +61,12 @@
                 echo '';
                 echo '<button class = "btn btn-outline-success " type = "submit">Details</button>';
                 echo '</form>';
-                
+
                 echo'</h5>';
                 echo '</div>';
                 echo '</div>';
                 echo '</div>';
-                echo '</div>';            
-                
+                echo '</div>';
             }
             echo '</section>';
         } else {

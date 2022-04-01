@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
     <?php
-    //nee test edit
     include "head.inc.php";
     ?>
     <body id="page-top">
@@ -10,10 +9,12 @@
         ?>
         <?php
         include "db.inc.php";
-        $appId = (int) $_POST['appId'];
-        $gameQty = (int) $_POST['gameQty'];
-        if ($gameQty <= 0 ) {
-            $sql = "DELETE FROM cart WHERE appid=". $appId;
+        $appId = sanitize_input($_POST['appId']);
+        $appId = (int)$appId;
+        $gameQty = sanitize_input($_POST['gameQty']);
+        $gameQty = (int)$gameQty ;
+        if ($gameQty <= 0) {
+            $sql = "DELETE FROM cart WHERE appid=" . $appId;
             $conn->query($sql);
         } else {
             $sql = "UPDATE cart SET qty=" . $gameQty . " WHERE appid=" . $appId;
@@ -21,6 +22,13 @@
         }
 
         header("location: cart.php");
+
+        function sanitize_input($data) {
+            $data = trim($data);
+            $data = stripslashes($data);
+            $data = htmlspecialchars($data);
+            return $data;
+        }
         ?>
         <?php
         include "footer.inc.php";
