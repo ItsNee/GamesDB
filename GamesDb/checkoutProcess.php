@@ -50,7 +50,7 @@ require 'PHPMailer-master/src/Exception.php';
                             while ($row2 = $result2->fetch_assoc()) {
                                 $name = $row2["name"];
                                 $price = $row2["price"];
-                                $coder .= '<tr><th scope="row">' . $counter . '</th><td>' . $name . '</td><td>' . $price . '</td></tr>';
+                                $coder .= '<tr><th scope="row">' . $counter . '</th><td>' . $name . '</td><td>' . $price . '</td><td>' . generateRandomString() . '</td></tr>';
                                 $counter = $counter + 1;
                             }
                         }
@@ -214,7 +214,7 @@ require 'PHPMailer-master/src/Exception.php';
         use DateTime;
 
         function checkerExpiry($expiry) {
-            $expires = DateTime::createFromFormat('my',$expiry);
+            $expires = DateTime::createFromFormat('my', $expiry);
             $now = new DateTime();
 
             if ($expires < $now) {
@@ -240,6 +240,16 @@ require 'PHPMailer-master/src/Exception.php';
                 $data = htmlspecialchars($data);
                 return $data;
             }
+
+        function generateRandomString($length = 10) {
+            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            $charactersLength = strlen($characters);
+            $randomString = '';
+            for ($i = 0; $i < $length; $i++) {
+                $randomString .= $characters[rand(0, $charactersLength - 1)];
+            }
+            return $randomString;
+        }
         ?>
 
 
