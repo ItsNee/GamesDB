@@ -58,34 +58,33 @@
                 $errorMsg = "Please indicate how you feel about the game via the thumbs up or down button before submitting your review!";
                 // show modal/popup showing error msg 
                 ?>
-        
-<!--         review error Modal
-<div class="modal fade" id="reviewErrorModal" role="dialog" tabindex="-1" aria-labelledby="reviewErrorModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-gradient-primary-to-secondary p-4">
-                <h5 class="modal-title font-alt text-white" id="reviewErrorModalLabel">Error submitting reviews!</h5>
-                <button class="btn-close btn-close-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body border-0 p-4">
-                <p>Please indicate how you feel about the game via the thumbs up or down button before submitting your review!"</p>                        
-                 Close Button
-                <div class="d-grid"><button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button></div>                       
-            </div>
-        </div>
-    </div>
-</div>-->
-        
-        <?php
-        
+
+                <!--         review error Modal
+                <div class="modal fade" id="reviewErrorModal" role="dialog" tabindex="-1" aria-labelledby="reviewErrorModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header bg-gradient-primary-to-secondary p-4">
+                                <h5 class="modal-title font-alt text-white" id="reviewErrorModalLabel">Error submitting reviews!</h5>
+                                <button class="btn-close btn-close-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body border-0 p-4">
+                                <p>Please indicate how you feel about the game via the thumbs up or down button before submitting your review!"</p>                        
+                                 Close Button
+                                <div class="d-grid"><button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button></div>                       
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
+
+                <?php
 //                echo '<script type="text/javascript"> showReviewErrorMessage(); </script>';        
-                echo '<script type="text/javascript"> alert("'.$errorMsg.'") </script>';
+                echo '<script type="text/javascript"> alert("' . $errorMsg . '") </script>';
             }
 
             if ($success == true) {
                 // get user reviews if they wrote something
                 $reviews = htmlspecialchars($_REQUEST['usrReviews']);
-                if (!$reviews == ""){
+                if (!$reviews == "") {
                     $query5 = $conn->prepare("INSERT INTO reviews (users_username, games_appid, review) VALUES (?, ?, ?)"); //prepared statement
                     $query5->bind_param("sis", $username, $appId, $reviews); //bind the parameters
                     if (!$query5->execute()) {
@@ -96,7 +95,7 @@
                     } else {
                         $success = true;
                     }
-                }                
+                }
             }
 
 
@@ -163,23 +162,43 @@
                     echo '<br>';
                     echo '<div class = "card-footer p-4 pt-0 border-top-0 bg-transparent">';
 
-                    
                     echo '<div class="d-flex justify-content-center">';
                     echo '<div style="display:block;padding: 0.375rem 0.75rem;">';
-                    // IDEA: if user havent buy, show add to cart button
-                    // can get this data from ORDERS table
-                    echo '<form id = "addToCartForm" name = "addToCartForm" action = "addToCart.php" method = "POST" enctype = "multipart/form-data">';
-                    echo '<input type = "hidden" name = "appId" value = "' . $appId . '" />';
-                    // if price == 0, display 'Free to play!' instead of $0
-                    if ($price == '0') {
-                        echo 'Free to play!';
-                    } else {
-                        echo '$' . $price;
+
+                    
+                    // if user havent buy, show add to cart button
+                    $getPurchasedGamesQuery = "SELECT distinct appid FROM orderDetails where orderid in (select orderid from orders where username = '" . $username . "');";
+                    $purchasedGames = mysqli_query($conn, $getPurchasedGamesQuery);
+                    $purchased = false; // a default boolean var to check if user have bought the game
+                    if ($purchasedGames->num_rows > 0) {
+                        while ($pGamesRow = $purchasedGames->fetch_assoc()) {
+                            $purchasedAppId = $pGamesRow['appid'];
+                            if ($purchasedAppId == $appId) {
+                                $purchased = true;
+                                break;
+                            } else {
+                                $purchased = false;
+                            }
+                        }
                     }
-                    echo '</div>';
-                    echo '<button class = "btn btn-outline-success " type = "submit">Add to Cart!</button>';
-                    echo '</form>';
-                    // price to be side by side with add to cart button
+                    
+                    // if user never buy, show add to cart button
+                    if ($purchased == false) {
+                        echo '<form id = "addToCartForm" name = "addToCartForm" action = "addToCart.php" method = "POST" enctype = "multipart/form-data">';
+                        echo '<input type = "hidden" name = "appId" value = "' . $appId . '" />';
+                        // if price == 0, display 'Free to play!' instead of $0
+                        if ($price == '0') {
+                            echo 'Free to play!';
+                        } else {
+                            echo '$' . $price;
+                        }
+                        echo '</div>';
+                        echo '<button class = "btn btn-outline-success " type = "submit">Add to Cart!</button>';
+                        echo '</form>';
+                        // price to be side by side with add to cart button
+                    }
+                     
+
                     echo '&nbsp;';
                     // add favourites
                     echo '<div style="padding: 0.375rem">';
@@ -212,8 +231,10 @@
                     echo '</div>';
 
                     echo '</div>';
+                    echo '</div>';
                     echo '</div>'; // closing tag for col-md-8
                     echo '</div>'; // closing tag for row
+                    
                     // show current reviews
                     echo '<div class="row">';
                     echo '<h3 class="my-3">Reviews</h3>';
@@ -308,20 +329,40 @@
 
                     echo '<div class="d-flex justify-content-center">';
                     echo '<div style="display:block;padding: 0.375rem 0.75rem;">';
-                    // IDEA: if user havent buy, show add to cart button
-                    // can get this data from ORDERS table
-                    echo '<form id = "addToCartForm" name = "addToCartForm" action = "addToCart.php" method = "POST" enctype = "multipart/form-data">';
-                    echo '<input type = "hidden" name = "appId" value = "' . $appId . '" />';
-                    // if price == 0, display 'Free to play!' instead of $0
-                    if ($price == '0') {
-                        echo 'Free to play!';
-                    } else {
-                        echo '$' . $price;
+                                        
+                    // if user havent buy, show add to cart button
+                    $getPurchasedGamesQuery = "SELECT distinct appid FROM orderDetails where orderid in (select orderid from orders where username = '" . $username . "');";
+                    $purchasedGames = mysqli_query($conn, $getPurchasedGamesQuery);
+                    $purchased = false; // a default boolean var to check if user have bought the game
+                    if ($purchasedGames->num_rows > 0) {
+                        while ($pGamesRow = $purchasedGames->fetch_assoc()) {
+                            $purchasedAppId = $pGamesRow['appid'];
+                            if ($purchasedAppId == $appId) {
+                                $purchased = true;
+                                break;
+                            } else {
+                                $purchased = false;
+                            }
+                        }
                     }
-                    echo '</div>';
-                    echo '<button class = "btn btn-outline-success " type = "submit">Add to Cart!</button>';
-                    echo '</form>';
-                     // price to be side by side with add to cart button
+                    
+                    // if user never buy, show add to cart button
+                    if ($purchased == false) {
+                        echo '<form id = "addToCartForm" name = "addToCartForm" action = "addToCart.php" method = "POST" enctype = "multipart/form-data">';
+                        echo '<input type = "hidden" name = "appId" value = "' . $appId . '" />';
+                        // if price == 0, display 'Free to play!' instead of $0
+                        if ($price == '0') {
+                            echo 'Free to play!';
+                        } else {
+                            echo '$' . $price;
+                        }
+                        echo '</div>';
+                        echo '<button class = "btn btn-outline-success " type = "submit">Add to Cart!</button>';
+                        echo '</form>';
+                        // price to be side by side with add to cart button
+                    }
+                    
+                    
                     echo '&nbsp;';
                     // add favourites
                     echo '<div style="padding: 0.375rem">';
@@ -354,8 +395,10 @@
                     echo '</div>';
 
                     echo '</div>';
+                    echo '</div>';
                     echo '</div>'; // closing tag for col-md-8
                     echo '</div>'; // closing tag for row
+                    
                     // show current reviews
                     echo '<div class="row">';
                     echo '<h3 class="my-3">Reviews</h3>';
@@ -386,14 +429,30 @@
 
         <!--reviews form-->
         <!--to be shown only when user purchased the game and haven't provided a review-->
-        <?php
-        // to add a check to see if user have purchased the game
-        $query6 = "SELECT * FROM reviews where games_appid = " . $appId . " AND users_username = '" . $username . "';";
-        $result6 = mysqli_query($conn, $query6);
-        if ($result6->num_rows == 0) {
-            // if there is no result, user have not submitted a review, display submit review section
-            ?>
+<?php
+// check if user purchased game
+$getPurchasedGamesQuery = "SELECT distinct appid FROM orderDetails where orderid in (select orderid from orders where username = '" . $username . "');";
+$purchasedGames = mysqli_query($conn, $getPurchasedGamesQuery);
+$purchased = false; // a default boolean var to check if user have bought the game
+if ($purchasedGames->num_rows > 0) {
+    while ($pGamesRow = $purchasedGames->fetch_assoc()) {
+        $purchasedAppId = $pGamesRow['appid'];
+        if ($purchasedAppId == $appId) {
+            $purchased = true;
+            break;
+        } else {
+            $purchased = false;
+        }
+    }
+}
 
+// if user bought the game, check if he/she has submitted a review
+if ($purchased == true){    
+    $query6 = "SELECT * FROM reviews where games_appid = " . $appId . " AND users_username = '" . $username . "';";
+    $result6 = mysqli_query($conn, $query6);
+    if ($result6->num_rows == 0) {
+        // if there is no result, user have not submitted a review, display submit review section
+        ?>
             <div class="row">
                 <form action="" method="POST" enctype = "multipart/form-data">
                     <h4 class = "my-3">Please tell us your experience with the game!</h4>                        
@@ -417,9 +476,10 @@
                 </form>
             </div>
 
-            <?php
-        } // closing tag for if statement
-        ?>
+    <?php
+    } // closing tag for if statement
+}
+?>
 
 
     </div>
@@ -427,8 +487,9 @@
 </div>
 </header>
 
- <!--review error Modal-->
-<div class="modal fade" id="reviewErrorModal" role="dialog" tabindex="-1" aria-labelledby="reviewErrorModalLabel" aria-hidden="true">
+<!--not working :(-->
+<!--review error Modal-->
+<!--<div class="modal fade" id="reviewErrorModal" role="dialog" tabindex="-1" aria-labelledby="reviewErrorModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-gradient-primary-to-secondary p-4">
@@ -437,12 +498,12 @@
             </div>
             <div class="modal-body border-0 p-4">
                 <p>Please indicate how you feel about the game via the thumbs up or down button before submitting your review!"</p>                        
-                 Close Button
+                Close Button
                 <div class="d-grid"><button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button></div>                       
             </div>
         </div>
     </div>
-</div>
+</div>-->
 
 <?php
 include "footer.inc.php";
