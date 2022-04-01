@@ -33,7 +33,7 @@ require 'PHPMailer-master/src/Exception.php';
         //check if credit card valid if valid
         if ($CCchecker == 1 && $ExpiryChecker == 1) {
             $result2 = getCart($username, $conn);
-            $coder = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"><table class="table"><thead><tr><th scope="col">#</th><th scope="col">Game Name</th><th scope="col">Price</th></tr></thead><tbody>';
+            $coder = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"><table class="table"><thead><tr><th scope="col">#</th><th scope="col">Game Name</th><th scope="col">Price</th><th scope="col">Game Code</th></tr></thead><tbody>';
             $counter = 1;
             if ($result2->num_rows > 0) {
                 $query = "SELECT * FROM cart WHERE username='$username'";
@@ -49,7 +49,7 @@ require 'PHPMailer-master/src/Exception.php';
                             while ($row2 = $result2->fetch_assoc()) {
                                 $name = $row2["name"];
                                 $price = $row2["price"];
-                                $coder .= '<tr><th scope="row">' . $counter . '</th><td>' . $name . '</td><td>' . $price . '</td></tr>';
+                                $coder .= '<tr><th scope="row">' . $counter . '</th><td>' . $name . '</td><td>' . $price . '</td><td>' . generateRandomString() . '</td></tr>';
                                 $counter = $counter + 1;
                             }
                         }
@@ -211,7 +211,7 @@ require 'PHPMailer-master/src/Exception.php';
         use DateTime;
 
         function checkerExpiry($expiry) {
-            $expires = DateTime::createFromFormat('my',$expiry);
+            $expires = DateTime::createFromFormat('my', $expiry);
             $now = new DateTime();
 
             if ($expires < $now) {
@@ -219,6 +219,16 @@ require 'PHPMailer-master/src/Exception.php';
             } else {
                 return 1;
             }
+        }
+
+        function generateRandomString($length = 10) {
+            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            $charactersLength = strlen($characters);
+            $randomString = '';
+            for ($i = 0; $i < $length; $i++) {
+                $randomString .= $characters[rand(0, $charactersLength - 1)];
+            }
+            return $randomString;
         }
         ?>
 
