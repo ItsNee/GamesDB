@@ -65,16 +65,16 @@
                                     <!-- Feature item-->
                                     <div class="text-center">
                                         <i class="bi bi-controller icon-feature text-gradient d-block mb-3"></i>
-                                        <h3 class="font-alt">Title 1</h3>
-                                        <p class="text-muted mb-0">Need to bs. But lets work on functionality first -Nee</p>
+                                        <h3 class="font-alt">Multi platform</h3>
+                                        <p class="text-muted mb-0">Our game codes are universal! They can be redeemed on all platforms!</p>
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-5">
                                     <!-- Feature item-->
                                     <div class="text-center">
                                         <i class="bi bi-joystick icon-feature text-gradient d-block mb-3"></i>
-                                        <h3 class="font-alt">Title 2</h3>
-                                        <p class="text-muted mb-0">Need to bs. But lets work on functionality first -Nee</p>
+                                        <h3 class="font-alt">One stop for all your games</h3>
+                                        <p class="text-muted mb-0">All you need to get all your games!</p>
                                     </div>
                                 </div>
                             </div>
@@ -83,16 +83,16 @@
                                     <!-- Feature item-->
                                     <div class="text-center">
                                         <i class="bi bi-dice-5 icon-feature text-gradient d-block mb-3"></i>
-                                        <h3 class="font-alt">Title 3</h3>
-                                        <p class="text-muted mb-0">Need to bs. But lets work on functionality first -Nee</p>
+                                        <h3 class="font-alt">Always updated</h3>
+                                        <p class="text-muted mb-0">Be the earliest players on the latest games!</p>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <!-- Feature item-->
                                     <div class="text-center">
                                         <i class="bi-patch-check icon-feature text-gradient d-block mb-3"></i>
-                                        <h3 class="font-alt">Title 4</h3>
-                                        <p class="text-muted mb-0">Need to bs. But lets work on functionality first -Nee</p>
+                                        <h3 class="font-alt">Liked and used by All</h3>
+                                        <p class="text-muted mb-0">Positive reviews everywhere!</p>
                                     </div>
                                 </div>
                             </div>
@@ -125,7 +125,7 @@
                 <div class="row gx-5 align-items-center justify-content-center justify-content-lg-between">
                     <div class="col-12 col-lg-5">
                         <h2 class="display-4 lh-1 mb-4">Enter a new age of Gaming</h2>
-                        <p class="lead fw-normal text-muted mb-5 mb-lg-0">Someone please help me write some bs here -Nee</p>
+                        <p class="lead fw-normal text-muted mb-5 mb-lg-0">No more searching for games on multiple platforms!</p>
                     </div>
                     <div class="col-sm-8 col-md-6">
                         <div class="px-5 px-sm-0"><img class="img-fluid rounded-circle" src="https://source.unsplash.com/u8Jn2rzYIps/900x900" alt="..." /></div>
