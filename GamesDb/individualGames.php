@@ -198,9 +198,26 @@
                         // price to be side by side with add to cart button
                     }
                      
-
+                    // 2/4/2022
+                    // check favourites
+                    $getFavGamesQuery = "SELECT * FROM favourites where users_username = '" . $username . "' and games_appid = '" . $appId . "';";
+                    $favGames = mysqli_query($conn, $getFavGamesQuery);
+                    $isFav = false; // a default boolean var to check if user have fav the game
+                    if ($favGames->num_rows > 0) {
                     echo '&nbsp;';
                     // add favourites
+                    echo '<div style="padding: 0.375rem">';
+                    echo '<input type = "hidden" name = "appId" value = "' . $appId . '" />';
+                    echo '<button type="submit" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Game already added to Favourites!" disabled">';
+                    echo '<i class="bi bi-star"></i>';
+                    echo '</button>';
+                    echo '</div>';
+                    }
+                    
+                    // if user did not fav game, show option to favourite
+                    else {
+                    echo '&nbsp;';
+                        // add favourites
                     echo '<div style="padding: 0.375rem">';
                     echo '<input type = "hidden" name = "appId" value = "' . $appId . '" />';
                     echo '<button type="submit" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#addFavModal">';
@@ -229,7 +246,8 @@
                     echo '</div>';
                     echo '</div>';
                     echo '</div>';
-
+                    }
+                    
                     echo '</div>';
                     echo '</div>';
                     echo '</div>'; // closing tag for col-md-8
@@ -362,9 +380,26 @@
                         // price to be side by side with add to cart button
                     }
                     
-                    
+                    // 2/4/2022
+                    // check favourites
+                    $getFavGamesQuery = "SELECT * FROM favourites where users_username = '" . $username . "' and games_appid = '" . $appId . "';";
+                    $favGames = mysqli_query($conn, $getFavGamesQuery);
+                    $isFav = false; // a default boolean var to check if user have fav the game
+                    if ($favGames->num_rows > 0) {
                     echo '&nbsp;';
                     // add favourites
+                    echo '<div style="padding: 0.375rem">';
+                    echo '<input type = "hidden" name = "appId" value = "' . $appId . '" />';
+                    echo '<button type="submit" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Game already added to Favourites!" disabled">';
+                    echo '<i class="bi bi-star"></i>';
+                    echo '</button>';
+                    echo '</div>';
+                    }
+                    
+                    // if user did not fav game, show option to favourite
+                    else {
+                    echo '&nbsp;';
+                        // add favourites
                     echo '<div style="padding: 0.375rem">';
                     echo '<input type = "hidden" name = "appId" value = "' . $appId . '" />';
                     echo '<button type="submit" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#addFavModal">';
@@ -393,6 +428,7 @@
                     echo '</div>';
                     echo '</div>';
                     echo '</div>';
+                    }
 
                     echo '</div>';
                     echo '</div>';
