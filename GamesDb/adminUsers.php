@@ -1,7 +1,7 @@
 <?php
 session_start();
 if ($_SESSION['isAdmin'] == "1") {
-    $l=1;
+    $l = 1;
 } else {
     header("location: index.php");
 }
@@ -55,7 +55,7 @@ if (isset($_POST['adminUpdateAccount'])) {
     } else {
         $success = true;
     }
-}elseif (isset($_POST['adminUpdateRemoveActivate'])) {
+} elseif (isset($_POST['adminUpdateRemoveActivate'])) {
 
     $query = $conn->prepare("UPDATE users SET isActivated=0 WHERE username=?"); //prepared statement
     $query->bind_param("s", $_REQUEST['username4Edit']); //bind the parameters
@@ -68,7 +68,7 @@ if (isset($_POST['adminUpdateAccount'])) {
     } else {
         $success = true;
     }
-}elseif (isset($_POST['adminUpdateEnableActivate'])) {
+} elseif (isset($_POST['adminUpdateEnableActivate'])) {
 
     $query = $conn->prepare("UPDATE users SET isActivated=1 WHERE username=?"); //prepared statement
     $query->bind_param("s", $_REQUEST['username4Edit']); //bind the parameters
@@ -81,7 +81,7 @@ if (isset($_POST['adminUpdateAccount'])) {
     } else {
         $success = true;
     }
-}elseif (isset($_POST['adminUpdateDeleteAccount'])) {
+} elseif (isset($_POST['adminUpdateDeleteAccount'])) {
 
     $query = $conn->prepare("DELETE FROM users WHERE username=?"); //prepared statement
     $query->bind_param("s", $_REQUEST['username4Edit']); //bind the parameters
@@ -192,9 +192,23 @@ if (isset($_POST['adminUpdateAccount'])) {
                             </li>
                             <li class="sidebar-item">
                                 <a class="sidebar-link waves-effect waves-dark sidebar-link" href="adminReviews.php"
-                                    aria-expanded="false">
+                                   aria-expanded="false">
                                     <i class="fa fa-user" aria-hidden="true"></i>
                                     <span class="hide-menu">Reviews</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="adminAddGame.php"
+                                   aria-expanded="false">
+                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                    <span class="hide-menu">Add Games</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="adminUpdateGames.php"
+                                   aria-expanded="false">
+                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                    <span class="hide-menu">Update/Delete Games</span>
                                 </a>
                             </li>
                         </ul>
@@ -355,7 +369,7 @@ if (isset($_POST['adminUpdateAccount'])) {
                                                         <td class="txt-oflo"><button class="btn btn-outline-success" name="adminUpdateMakeAdmin" type="submit">Make Admin</button></td>
                                                     </form>
                                                 <?php } ?>
-                                        
+
                                                 <?php if ($isActivated == "1") { ?>
                                                     <form action="" method="POST" enctype='multipart/form-data'>
                                                         <input type="hidden" name="username4Edit" value="<?php print_r($username) ?>" />
@@ -367,10 +381,10 @@ if (isset($_POST['adminUpdateAccount'])) {
                                                         <td class="txt-oflo"><button class="btn btn-outline-success" name="adminUpdateEnableActivate" type="submit">Activate Account</button></td>
                                                     </form>
                                                 <?php } ?>
-                                                    <form action="" method="POST" enctype='multipart/form-data'>
-                                                        <input type="hidden" name="username4Edit" value="<?php print_r($username) ?>" />
-                                                        <td class="txt-oflo"><button class="btn btn-outline-danger" name="adminUpdateDeleteAccount" type="submit">Delete Account</button></td>
-                                                    </form>
+                                                <form action="" method="POST" enctype='multipart/form-data'>
+                                                    <input type="hidden" name="username4Edit" value="<?php print_r($username) ?>" />
+                                                    <td class="txt-oflo"><button class="btn btn-outline-danger" name="adminUpdateDeleteAccount" type="submit">Delete Account</button></td>
+                                                </form>
                                                 </tr>
                                                 <?php
                                                 $counter += 1;

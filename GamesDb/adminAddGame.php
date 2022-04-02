@@ -171,127 +171,57 @@ include "db.inc.php";
                     <div class="row">
                         <div class="col-md-12 col-lg-12 col-sm-12">
                             <div class="white-box">
+                                <div class="d-md-flex mb-3">
+                                    <h3 class="box-title mb-0">Add Game</h3>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table no-wrap">
+                                        <tbody>
 
-                                                <?php
-                                                include "db.inc.php";
 
-                                                $success = true;
-                                                $errorMsg = "";
+                                        <form id="signInForm" action="processAddGame.php" method="POST" enctype="multipart/form-data">
+                                            <tr>Game Name:*</tr>
+                                            <div class="form-floating mb-3">
+                                                <tr><input class="form-control" name="gameName" id="gameName" type="text" placeholder="Enter Game Name" required /></tr>
+                                            </div>
 
-                                                function specialChar($data) {
-                                                    global $success, $errorMsg;
+                                            <tr>Developer:*</tr>
+                                            <div class="form-floating mb-3">
+                                                <tr><input class="form-control" name="developer" id="developer" type="text" placeholder="Enter Game Developer" required /></tr>
+                                            </div>
 
-                                                    $signs = "/([<>])/";
-                                                    if (preg_match($signs, $data) and $success) {
-                                                        $success = false;
-                                                        $errorMsg .= "Please remove any invalid characters such as '<>'<br>";
-                                                        return $data;
-                                                    } else {
-                                                        return $data;
-                                                    }
-                                                }
+                                            <tr>Price:*</tr>
+                                            <div class="form-floating mb-3">
+                                                <tr><input class="form-control" name="price" id="price" min = '0' step='0.01' value='0.00' type="number" placeholder="Enter Game Price"/></tr>
+                                            </div>
 
-                                                $appID = specialChar($_POST['appId']);
-                                                $gameName = specialChar($_POST['gameName']);
-                                                $developer = specialChar($_POST['developer']);
-                                                $genre = specialChar($_POST['genre']);
-                                                $price = specialChar($_POST['price']);
-                                                $gameInfo = specialChar($_POST['gameInfo']);
-                                                specialChar($_POST['image']);
+                                            <tr>Genre:*</tr>
+                                            <div class="form-floating mb-3">
+                                                <tr><input class="form-control" name="gameGenre" id="gameGenre" type="text" placeholder="Enter Game Genre" required/></tr>
+                                            </div> 
 
-                                                if (empty($appID) || empty($gameName) || empty($developer) || empty($gameInfo) || empty($genre) || empty($_POST['image'])) {
-                                                    $errorMsg .= "Fill up the required fields (e.g. Name, Developer, Genre, Info)<br>";
-                                                    $success = false;
-                                                }
+                                            <tr>Game Info:*</tr>
+                                            <div class="form-floating mb-3">
+                                                <tr><input class="form-control" name="gameInfo" id="gameInfo" type="text" placeholder="Enter Game Info" required /></tr>
+                                            </div> 
 
-                                                if (empty($price)) {
-                                                    $price = "0";
-                                                }
+                                            <tr>Game Image: (if no changes, check 'From URL')</tr><br> 
+                                            <tr>From URL<input type="radio" name="image" id="url" value="1" required/></tr>
+                                            <tr><input class="form-control" name="gameImage1" id="gameImage1" type="text" placeholder="Update Game Image" 
+                                                       value="<?php echo $gameImage; ?>" /></tr>
+                                            <tr>Upload Image File<input type="radio" name="image" id="file" value="2" required/></tr>
+                                            <tr><input class="form-control" name="gameImage2" id="gameImage2" type="file" placeholder="Update Game Image" /></tr>
 
-                                                // Check if price is negative
-                                                if ($price < 0) {
-                                                    $success = false;
-                                                    $errorMsg .= "Price cannot be negative <br>";
-                                                }
-
-                                                // If upload image URL
-                                                if ($_POST['image'] == 1) {
-                                                    $gameImage = specialChar($_POST['gameImage1']);
-                                                    if (empty($gameImage)) {
-                                                        $target_dir = "uploads/";
-                                                        $filename = "default.JPG";
-                                                        $imagePath = $target_dir . $filename;
-                                                    } else {
-                                                        $imagePath = $gameImage;
-                                                    }
-
-                                                    // If upload image file to backend
-                                                } else if ($_POST['image'] == 2) {
-                                                    $gameImage = specialChar($_POST['gameImage2']);
-                                                    if (($_FILES['gameImage2']['name'] != "")) {
-                                                        // Where the file is going to be stored
-                                                        $target_dir = "uploads/";
-                                                        $file = $_FILES['gameImage2']['name'];
-                                                        $path = pathinfo($file);
-                                                        $filename = $path['filename'];
-                                                        $ext = $path['extension'];
-                                                        $allowTypes = array('jpg', 'png', 'jpeg', 'gif', 'JPG', 'PNG', 'GIF');
-                                                        $temp_name = $_FILES['gameImage2']['tmp_name'];
-                                                        $imagePath = $target_dir . $filename . "." . $ext;
-                                                        if (in_array($ext, $allowTypes)) {
-                                                            if (file_exists($imagePath)) {
-                                                                
-                                                            } else {
-                                                                move_uploaded_file($temp_name, $imagePath);
-                                                            }
-                                                        } else {
-                                                            $success = false;
-                                                            $errorMsg .= "Only JPG, JPEG, PNG & GIF files are allowed to upload as the game image.<br>";
-                                                        }
-                                                    } else {
-                                                        $target_dir = "uploads/";
-                                                        $filename = "default.JPG";
-                                                        $imagePath = $target_dir . $filename;
-                                                    }
-                                                }
-                                                // If invalid radio value
-                                                else {
-                                                    $success = false;
-                                                }
-
-                                                if ($success) {
-                                                    $stmt = $conn->prepare("UPDATE games set name=?, developer=?, gameGenre=?, price=?, gameInfo=?, gameImage=? WHERE appid=?");
-                                                    $stmt->bind_param("ssssssi", $gameName, $developer, $genre, $price, $gameInfo, $imagePath, $appID);
-                                                    if (!$stmt->execute()) {
-                                                        $errorMsg = "Something went wrong. Please try again";
-                                                        echo $errorMsg;
-                                                        echo '<div class = "text-center"><a href="admin.php">'
-                                                        . '<button class = "btn btn-outline-secondary mt-auto" style= "background-color: rgb(255, 153, 0);">Return to Admin Page</button></a></div>';
-
-                                                        echo '<br><div class = "text-center"><a href="adminUpdateGames.php">'
-                                                        . '<button class = "btn btn-outline-secondary mt-auto" style= "background-color: rgb(255, 153, 0);">Return to Update Games Page</button></a></div>';
-                                                    } else {
-                                                        echo 'Game has successfully been updated';
-                                                        echo '<div class = "text-center"><a href="admin.php">'
-                                                        . '<button class = "btn btn-outline-secondary mt-auto" style= "background-color: rgb(255, 153, 0);">Return to Admin Page</button></a></div>';
-                                                        echo '<br><div class = "text-center"><a href="adminUpdateGames.php">'
-                                                        . '<button class = "btn btn-outline-secondary mt-auto" style= "background-color: rgb(255, 153, 0);">Return to Update Games Page</button></a></div>';
-                                                    }
-                                                } else {
-                                                    echo "<h4>The following errors are found:</h4><br>";
-                                                    echo $errorMsg;
-                                                    echo '<div class = "text-center"><a href="admin.php">'
-                                                    . '<button class = "btn btn-outline-secondary mt-auto" style= "background-color: rgb(255, 153, 0);">Return to Admin Page</button></a></div>';
-                                                    echo '<br><div class = "text-center"><a href="adminUpdateGames.php">'
-                                                    . '<button class = "btn btn-outline-secondary mt-auto" style= "background-color: rgb(255, 153, 0);">Return to Update Games Page</button></a></div>';
-                                                }
-                                                ?> 
+                                            <div class = "text-center"><button class = "btn btn-outline-secondary mt-auto" type="submit">Add Game</button></div>
+                                        </form>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
             <!-- ============================================================== -->

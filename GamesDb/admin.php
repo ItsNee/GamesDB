@@ -107,6 +107,20 @@ if ($_SESSION['isAdmin'] == "1") {
                                     <span class="hide-menu">Reviews</span>
                                 </a>
                             </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="adminAddGame.php"
+                                   aria-expanded="false">
+                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                    <span class="hide-menu">Add Games</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="adminUpdateGames.php"
+                                   aria-expanded="false">
+                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                    <span class="hide-menu">Update/Delete Games</span>
+                                </a>
+                            </li>
                         </ul>
 
                     </nav>
@@ -167,7 +181,7 @@ if ($_SESSION['isAdmin'] == "1") {
                                                             </ul>
                                                         </div>-->
                             <div class=" col-md-12">
-                                <a href="addGames.php">
+                                <a href="adminAddGame.php">
                                     <button class="btn btn-primary rounded-pill col-lg-12 px-3 mb-2 mb-lg-0">
                                         Add Game
                                     </button>
@@ -189,7 +203,7 @@ if ($_SESSION['isAdmin'] == "1") {
                                             </div>-->
                         <div class="col-lg-3 col-md-12">
                             <div class=" col-md-12">
-                                <a href="updateGames.php">
+                                <a href="adminUpdateGames.php">
                                     <button class="btn btn-primary rounded-pill col-lg-12 px-3 mb-2 mb-lg-0">
                                         Update/Delete Game
                                     </button>

@@ -6,37 +6,7 @@ if ($_SESSION['isAdmin'] == "1") {
     header("location: index.php");
 }
 include "db.inc.php";
-
-if (isset($_POST['adminUpdateReview'])) {
-    $review = $_REQUEST['updateReview'];
-    $query = $conn->prepare("UPDATE reviews SET review=? WHERE users_username=? AND games_appid=?"); //prepared statement
-    $query->bind_param("ssi", $review, $_REQUEST['username4Edit'], $_REQUEST['updateAppId']); //bind the parameters
-    if (!$query->execute()) {
-        $errorMsg = "Execute failed: (" . $query->errno . ") " . $query->error;
-        $success = false;
-        echo $errorMsg;
-        $error = base64_encode("Review Update failed, please try again.");
-        header("location: 404.php?error=" . $errorMsg);
-    } else {
-        $success = true;
-    }
-} elseif (isset($_POST['adminUpdateDeleteReview'])) {
-    $username = $_REQUEST['username4Edit'];
-    $appId = $_REQUEST['appId4Edit'];
-    $query = $conn->prepare("DELETE FROM reviews WHERE users_username=? AND games_appid=?"); //prepared statement
-    $query->bind_param("si", $username, $appId); //bind the parameters
-    if (!$query->execute()) {
-        $errorMsg = "Execute failed: (" . $query->errno . ") " . $query->error;
-        $success = false;
-        echo $errorMsg;
-        $error = base64_encode("Review Delete failed, please try again.");
-        header("location: 404.php?error=" . $errorMsg);
-    } else {
-        $success = true;
-    }
-}
 ?>
-
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
 
@@ -50,7 +20,7 @@ if (isset($_POST['adminUpdateReview'])) {
         <meta name="description"
               content="GamesDB Admin Page">
         <meta name="robots" content="noindex,nofollow">
-        <title>GamesDB Admin Review Page</title>
+        <title>GamesDB Admin Page</title>
         <!-- Favicon icon -->
         <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon.ico">
         <!-- Custom CSS -->
@@ -245,8 +215,8 @@ if (isset($_POST['adminUpdateReview'])) {
                         <div class="col-md-12 col-lg-12 col-sm-12">
                             <div class="white-box">
                                 <div class="d-md-flex mb-3">
-                                    <h3 class="box-title mb-0">Users Table</h3>
-                                    <div class="col-md-3 col-sm-4 col-xs-6 ms-auto">
+                                    <h3 class="box-title mb-0">Games Table</h3>
+<!--                                    <div class="col-md-3 col-sm-4 col-xs-6 ms-auto">
                                         <select class="form-select shadow-none row border-top">
                                             <option>March 2021</option>
                                             <option>April 2021</option>
@@ -254,57 +224,59 @@ if (isset($_POST['adminUpdateReview'])) {
                                             <option>June 2021</option>
                                             <option>July 2021</option>
                                         </select>
-                                    </div>
+                                    </div>-->
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table no-wrap">
                                         <thead>
                                             <tr>
-                                                <th class="border-top-0">#</th>
-                                                <th class="border-top-0">Username</th>
-                                                <th class="border-top-0">App ID</th>
-                                                <th class="border-top-0">Reviews</th>                                                
-                                                <th class="border-top-0">Update</th>                                                
+                                                <th class="border-top-0">AppID</th>
+                                                <th class="border-top-0">Game Name</th>
+                                                <th class="border-top-0">Developer</th>
+                                                <th class="border-top-0">Genre</th>
+                                                <th class="border-top-0">Price</th>
+                                                <th class="border-top-0">Update</th>
                                                 <th class="border-top-0">Delete</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                            $query = "SELECT * FROM reviews";
+                                            $query = "SELECT * FROM games";
                                             $result = mysqli_query($conn, $query);
                                             if ($result->num_rows > 0) {
                                                 // output data of each row
                                                 $counter = 1;
                                                 while ($row = $result->fetch_assoc()) {
-                                                    $username = $row["users_username"];
-                                                    $appId = $row["games_appid"];
-                                                    $review = $row["review"];
+                                                    $gameGenre = $row["gameGenre"];
+                                                    $appId = $row["appid"];
+                                                    $name = $row["name"];
+                                                    $developer = $row["developer"];
+                                                    $price = $row["price"];
+                                                    $gameImage = $row["gameImage"];
                                                     ?>
                                                     <tr>
-                                                <form action="" method="POST" enctype='multipart/form-data'>
-                                                    <td><?php print_r($counter) ?></td>
-                                                    <td class="txt-oflo"><input class="form-control" id="inputUsername" type="text" placeholder="Enter your username" name="updateUsername" value="<?php print_r($username) ?>" readonly></td>
-                                                    <td class="txt-oflo"><input class="form-control" id="inputUsername" type="text" placeholder="Enter your username" name="updateAppId" value="<?php print_r($appId) ?>" readonly></td>
-                                                    <td class="txt-oflo"><input class="form-control" id="inputUsername" type="text" placeholder="Enter your username" name="updateReview" value="<?php print_r($review) ?>"></td>
-
-                                                    <input type="hidden" name="username4Edit" value="<?php print_r($username) ?>" />
-                                                    <td> <button class="btn btn-success" name="adminUpdateReview" type="submit">Update</button></td>
-                                                </form>                                        
-                                                <form action="" method="POST" enctype='multipart/form-data'>
-                                                    <input type="hidden" name="username4Edit" value="<?php print_r($username) ?>" />
-                                                    <input type="hidden" name="appId4Edit" value="<?php print_r($appId) ?>" />
-                                                    <td class="txt-oflo"><button class="btn btn-outline-danger" name="adminUpdateDeleteReview" type="submit">Delete Review</button></td>
-                                                </form>       
-                                                </tr>
-                                                <?php
-                                                $counter += 1;
+                                                        <td><?php echo $appId;  ?></td>
+                                                        <td class="txt-oflo"><input class="form-control" id="inputUsername" type="text" value="<?php echo $name; ?>" readonly></td>
+                                                        <td class="txt-oflo"><input class="form-control" id="inputUsername" type="text" value="<?php echo $developer; ?>" readonly></td>
+                                                        <td class="txt-oflo"><input class="form-control" id="inputUsername" type="text"  value="<?php echo $gameGenre; ?>" readonly></td>
+                                                        <td class="txt-oflo"><input class="form-control" id="inputUsername" type="text" value="<?php echo $price; ?>" readonly></td>
+                                                <form id="indivGamesForm" name="indivGamesForm" action="adminUpIndiGame.php" method="POST" enctype="multipart/form-data">
+                                                    <input type="hidden" name="appId" value='<?php echo $appId; ?>' />
+                                                    <td> <button class="btn btn-success" name="adminUpdateAccount" type="submit">Update</button></td>
+                                                </form>
+                                                <form id="indivGamesForm" name="indivGamesForm" action="processDeleteGame.php" method="POST" enctype="multipart/form-data">
+                                                    <input type="hidden" name="appId" value="<?php echo $appId; ?>" />
+                                                    <td> <button class="btn btn-outline-danger" name="adminUpdateAccount" type="submit">Delete</button></td>
+                                                </form>
+                                                    </tr>
+                                                    <?php
+                                                }
+                                            } else {
+                                                echo "0 results";
+                                                //header('Location: ../cdenoexst');
                                             }
-                                        } else {
-                                            echo "0 results";
-                                            //header('Location: ../cdenoexst');
-                                        }
-                                        ?>
-                                        </tbody>
+                                            ?>
+                                            </tbody>
                                     </table>
                                 </div>
                             </div>
