@@ -11,6 +11,7 @@ while (($line = fgetcsv($file)) !== FALSE) {
     echo $positiveVotes = $line[6];
     echo $negativeVotes = $line[7];
     echo $price = $line[14];
+    echo $info = $line[18];
     echo $gameImage = "https://steamcdn-a.akamaihd.net/steam/apps/".$appid."/header.jpg";
     echo $gameGenre = "indie";
     
@@ -27,9 +28,15 @@ while (($line = fgetcsv($file)) !== FALSE) {
     else
     {
         // Prepare the statement:
-        $stmt = $conn->prepare("INSERT INTO games (appid, name, developer, positiveVotes, negativeVotes, price, gameImage, gameGenre) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        // = $conn->prepare("INSERT INTO games (appid, name, developer, positiveVotes, negativeVotes, price, gameImage, gameGenre) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
         // Bind & execute the query statement:
-        $stmt->bind_param("isssssss", $appid, $name, $developer, $positiveVotes, $negativeVotes, $price, $gameImage, $gameGenre);
+        //$stmt->bind_param("isssssss", $appid, $name, $developer, $positiveVotes, $negativeVotes, $price, $gameImage, $gameGenre);
+        
+        
+        // Prepare the statement:
+        $stmt = $conn->prepare("UPDATE games SET gameInfo = ? WHERE appid = ?");
+        // Bind & execute the query statement:
+        $stmt->bind_param("si", $info ,$appid);
         if (!$stmt->execute())
         {
         $errorMsg = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
@@ -56,6 +63,7 @@ while (($line = fgetcsv($file)) !== FALSE) {
     echo $positiveVotes = $line[6];
     echo $negativeVotes = $line[7];
     echo $price = $line[14];
+    echo $info = $line[18];
     echo $gameImage = "https://steamcdn-a.akamaihd.net/steam/apps/".$appid."/header.jpg";
     echo $gameGenre = "adventure";
     
@@ -72,9 +80,15 @@ while (($line = fgetcsv($file)) !== FALSE) {
     else
     {
         // Prepare the statement:
-        $stmt = $conn->prepare("INSERT INTO games (appid, name, developer, positiveVotes, negativeVotes, price, gameImage, gameGenre) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        //$stmt = $conn->prepare("INSERT INTO games (appid, name, developer, positiveVotes, negativeVotes, price, gameImage, gameGenre) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
         // Bind & execute the query statement:
-        $stmt->bind_param("isssssss", $appid, $name, $developer, $positiveVotes, $negativeVotes, $price, $gameImage, $gameGenre);
+        //$stmt->bind_param("isssssss", $appid, $name, $developer, $positiveVotes, $negativeVotes, $price, $gameImage, $gameGenre);
+        
+        
+        // Prepare the statement:
+        $stmt = $conn->prepare("UPDATE games SET gameInfo = ? WHERE appid = ?");
+        // Bind & execute the query statement:
+        $stmt->bind_param("si", $info ,$appid);
         if (!$stmt->execute())
         {
         $errorMsg = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
@@ -99,6 +113,7 @@ while (($line = fgetcsv($file)) !== FALSE) {
     echo $positiveVotes = $line[6];
     echo $negativeVotes = $line[7];
     echo $price = $line[14];
+    echo $info = $line[18];
     echo $gameImage = "https://steamcdn-a.akamaihd.net/steam/apps/".$appid."/header.jpg";
     echo $gameGenre = "racing";
     
@@ -115,9 +130,15 @@ while (($line = fgetcsv($file)) !== FALSE) {
     else
     {
         // Prepare the statement:
-        $stmt = $conn->prepare("INSERT INTO games (appid, name, developer, positiveVotes, negativeVotes, price, gameImage, gameGenre) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        //$stmt = $conn->prepare("INSERT INTO games (appid, name, developer, positiveVotes, negativeVotes, price, gameImage, gameGenre) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
         // Bind & execute the query statement:
-        $stmt->bind_param("isssssss", $appid, $name, $developer, $positiveVotes, $negativeVotes, $price, $gameImage, $gameGenre);
+        //$stmt->bind_param("isssssss", $appid, $name, $developer, $positiveVotes, $negativeVotes, $price, $gameImage, $gameGenre);
+        
+        
+        // Prepare the statement:
+        $stmt = $conn->prepare("UPDATE games SET gameInfo = ? WHERE appid = ?");
+        // Bind & execute the query statement:
+        $stmt->bind_param("si", $info ,$appid);
         if (!$stmt->execute())
         {
         $errorMsg = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
@@ -142,6 +163,7 @@ while (($line = fgetcsv($file)) !== FALSE) {
     echo $positiveVotes = $line[6];
     echo $negativeVotes = $line[7];
     echo $price = $line[14];
+    echo $info = $line[18];
     echo $gameImage = "https://steamcdn-a.akamaihd.net/steam/apps/".$appid."/header.jpg";
     echo $gameGenre = "strategy";
     
@@ -158,9 +180,15 @@ while (($line = fgetcsv($file)) !== FALSE) {
     else
     {
         // Prepare the statement:
-        $stmt = $conn->prepare("INSERT INTO games (appid, name, developer, positiveVotes, negativeVotes, price, gameImage, gameGenre) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        //$stmt = $conn->prepare("INSERT INTO games (appid, name, developer, positiveVotes, negativeVotes, price, gameImage, gameGenre) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
         // Bind & execute the query statement:
-        $stmt->bind_param("isssssss", $appid, $name, $developer, $positiveVotes, $negativeVotes, $price, $gameImage, $gameGenre);
+        //$stmt->bind_param("isssssss", $appid, $name, $developer, $positiveVotes, $negativeVotes, $price, $gameImage, $gameGenre);
+        
+        
+        // Prepare the statement:
+        $stmt = $conn->prepare("UPDATE games SET gameInfo = ? WHERE appid = ?");
+        // Bind & execute the query statement:
+        $stmt->bind_param("si", $info ,$appid);
         if (!$stmt->execute())
         {
         $errorMsg = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;

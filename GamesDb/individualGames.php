@@ -117,6 +117,8 @@
                     $totalVotes = $positiveVotes + $negativeVotes; // to show ratings upon 5 stars
                     $price = $row["price"];
                     $gameImage = $row["gameImage"];
+                    $gameInfo = $row["gameInfo"];
+                    
 
                     echo '<h1 class="my-4">' . $name . '</h1>';
                     echo '<div class="row">';
@@ -125,7 +127,7 @@
                     echo '</div>';
                     echo '<div class = "col-md-4">';
                     echo '<h3 class="my-3">Description</h3>';
-                    echo '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae. Sed dui lorem, adipiscing in adipiscing et, interdum nec metus. Mauris ultricies, justo eu convallis placerat, felis enim.</p>';
+                    echo '<p>' . $gameInfo . '</p>';
                     echo '<h5 class = "my-3">Genre : ' . ucfirst($gameGenre) . '</h5>';
                     echo '<h5 class = "my-3">Positive Votes : ' . $positiveVotes . '</h5>';
                     echo '<h5 class = "my-3">Negative Votes : ' . $negativeVotes . '</h5>';
@@ -300,6 +302,7 @@
                     $totalVotes = $positiveVotes + $negativeVotes; // to show ratings upon 5 stars
                     $price = $row["price"];
                     $gameImage = $row["gameImage"];
+                    $gameInfo = $row["gameInfo"];
 
                     echo '<h1 class="my-4">' . $name . '</h1>';
                     echo '<div class="row">';
@@ -308,7 +311,7 @@
                     echo '</div>';
                     echo '<div class = "col-md-4">';
                     echo '<h3 class="my-3">Description</h3>';
-                    echo '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae. Sed dui lorem, adipiscing in adipiscing et, interdum nec metus. Mauris ultricies, justo eu convallis placerat, felis enim.</p>';
+                    echo '<p>' . $gameInfo . '</p>';
                     echo '<h5 class = "my-3">Genre : ' . ucfirst($gameGenre) . '</h5>';
                     echo '<h5 class = "my-3">Positive Votes : ' . $positiveVotes . '</h5>';
                     echo '<h5 class = "my-3">Negative Votes : ' . $negativeVotes . '</h5>';
