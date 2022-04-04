@@ -200,12 +200,12 @@ include "db.inc.php";
                                                 <tr><input class="form-control" name="gameGenre" id="gameGenre" type="text" placeholder="Enter Game Genre" required/></tr>
                                             </div> 
 
-                                            <tr>Game Info:*</tr>
+                                            <tr>Game Info:</tr>
                                             <div class="form-floating mb-3">
-                                                <tr><input class="form-control" name="gameInfo" id="gameInfo" type="text" placeholder="Enter Game Info" required /></tr>
+                                                <tr><input class="form-control" name="gameInfo" id="gameInfo" type="text" placeholder="Enter Game Info" /></tr>
                                             </div> 
 
-                                            <tr>Game Image: (if no changes, check 'From URL')</tr><br> 
+                                            <tr>Game Image: (If no image, leave blank and check any of the buttons)</tr><br> 
                                             <tr>From URL<input type="radio" name="image" id="url" value="1" required/></tr>
                                             <tr><input class="form-control" name="gameImage1" id="gameImage1" type="text" placeholder="Update Game Image" 
                                                        value="<?php echo $gameImage; ?>" /></tr>

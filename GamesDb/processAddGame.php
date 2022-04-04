@@ -200,8 +200,8 @@ include "db.inc.php";
                                 $gameInfo = specialChar($_POST['gameInfo']);
                                 $gameImage = specialChar($_POST['gameImage']);
 
-                                if (empty($gameName) || empty($developer) || empty($gameGenre) || empty($gameInfo) || empty($_POST['image'])) {
-                                    $errorMsg .= "Fill up the required fields (e.g. Name, Developer, Genre, Info)<br>";
+                                if (empty($gameName) || empty($developer) || empty($gameGenre)  || empty($_POST['image'])) {
+                                    $errorMsg .= "Fill up the required fields (e.g. Name, Developer, Genre)<br>";
                                     $success = false;
                                 }
 

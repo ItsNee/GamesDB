@@ -211,9 +211,9 @@ include "db.inc.php";
                                                 <tr><input class="form-control" name="price" id="price" type="number" min='0' step='0.01' 
                                                            value="<?php echo $price; ?>" placeholder="Enter Game Price"/></tr>
 
-                                                <tr>Game Info:*</tr>
+                                                <tr>Game Info:</tr>
                                                 <tr><input class="form-control" name="gameInfo" id="gameInfo" type="text" placeholder="Update Game Info" 
-                                                           value="<?php echo $gameInfo; ?>" required/></tr>
+                                                           value="<?php echo $gameInfo; ?>"/></tr>
 
                                                 <tr>Game Image: (if no changes, check 'From URL')</tr><br>
                                                 <tr>From URL<input type="radio" name="image" id="url" value="1" required/></tr>
