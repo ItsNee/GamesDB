@@ -25,15 +25,16 @@
 require 'PHPMailer-master/src/Exception.php';
         require 'PHPMailer-master/src/PHPMailer.php';
         require 'PHPMailer-master/src/SMTP.php';
-        $creditCard = $_POST['creditCard'];
-        $expiry = $_POST['expiryDate'];
-        $cvc = $_POST['cvc'];
+        $creditCard = sanitize_input($_POST['creditCard']);
+        $expiry = sanitize_input($_POST['expiryDate']);
+        $cvc = sanitize_input($_POST['cvc']);
+        $CvcChecker = checkCVC($cvc);
         $CCchecker = CCValidate($creditCard);
         $ExpiryChecker = checkerExpiry($expiry);
         //check if credit card valid if valid
-        if ($CCchecker == 1 && $ExpiryChecker == 1) {
+        if ($CCchecker == 1 && $ExpiryChecker == 1 && $CvcChecker == 1) {
             $result2 = getCart($username, $conn);
-            $coder = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"><table class="table"><thead><tr><th scope="col">#</th><th scope="col">Game Name</th><th scope="col">Price</th><th scope="col">Game Code</th></tr></thead><tbody>';
+            $coder = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"><table class="table"><thead><tr><th scope="col">#</th><th scope="col">Game Name</th><th scope="col">Price</th></tr></thead><tbody>';
             $counter = 1;
             if ($result2->num_rows > 0) {
                 $query = "SELECT * FROM cart WHERE username='$username'";
@@ -84,7 +85,6 @@ require 'PHPMailer-master/src/Exception.php';
                 $stmt = $conn->prepare("SELECT * FROM orders");
                 $stmt->execute();
                 $resultOrders = $stmt->get_result();
-                echo $resultOrders->num_rows;
                 //To check if the orders table is empty
                 //If not empty update with latest orderid
                 if ($resultOrders->num_rows > 0) {
@@ -96,8 +96,9 @@ require 'PHPMailer-master/src/Exception.php';
                     $orderidRow2 = $orderidRow->fetch_assoc();
                     $largestInt = (int) $orderidRow2['orderid'];
                     $largestOrder = $largestInt + 1;
-                    $stmt2 = $conn->prepare("INSERT INTO orders (orderid, username) VALUES (?, ?)");
-                    $stmt2->bind_param("ss", $largestOrder, $username);
+                    $purchasedDate = date('Y-m-d');
+                    $stmt2 = $conn->prepare("INSERT INTO orders (orderid, username, orderdate) VALUES (?, ?, ?)");
+                    $stmt2->bind_param("sss", $largestOrder, $username, $purchasedDate);
                     $stmt2->execute();
                     $counter = 0;
                     $result3 = getCart($username, $conn);
@@ -114,8 +115,10 @@ require 'PHPMailer-master/src/Exception.php';
                 } else {
                     //Add to order DB for first entry into db
                     $one = 1;
-                    $stmt2 = $conn->prepare("INSERT INTO orders (orderid, username) VALUES (?, ?)");
-                    $stmt2->bind_param("ss", $one, $username);
+                    $purchasedDate = date('Y-m-d');
+                    echo $purchasedDate;
+                    $stmt2 = $conn->prepare("INSERT INTO orders (orderid, username, orderdate) VALUES (?, ?, ?)");
+                    $stmt2->bind_param("sss", $one, $username, $purchasedDate);
                     $stmt2->execute();
                     $result3 = getCart($username, $conn);
                     while ($row = $result3->fetch_assoc()) {
@@ -221,6 +224,21 @@ require 'PHPMailer-master/src/Exception.php';
             }
         }
 
+        function checkCVC($cvc) {
+            if (strlen($cvc) != 3) {
+                return 0;
+            } else {
+                return 1;
+            }
+        }
+
+        function sanitize_input($data) {
+            $data = trim($data);
+            $data = stripslashes($data);
+            $data = htmlspecialchars($data);
+            return $data;
+        }
+
         function generateRandomString($length = 10) {
             $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
             $charactersLength = strlen($characters);
@@ -233,9 +251,9 @@ require 'PHPMailer-master/src/Exception.php';
         ?>
 
 
-        <?php
-        include "footer.inc.php";
-        ?>
+<?php
+include "footer.inc.php";
+?>
 
 
 
