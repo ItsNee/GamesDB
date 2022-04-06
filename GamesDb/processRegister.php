@@ -51,6 +51,9 @@ if (!empty($_POST['g-recaptcha-response'])) {
 //----------------------------------------------------------------------------------------------------------------------------------------
             if ($password == $confirmPassword) {
                 $hash = password_hash($password, PASSWORD_BCRYPT);
+            }else{
+                $error = base64_encode("Passwords do not match!");
+                header("location: 404.php?error=" . $error);
             }
 
             session_start();
@@ -111,8 +114,8 @@ if (!empty($_POST['g-recaptcha-response'])) {
                     $error = base64_encode("Please select a file to upload.");
                     header("location: 404.php?error=" . $error);
                 }
+                header("location: sendEmail.php");
             }
-            header("location: sendEmail.php");
         } else {
             header("location: index.php");
         }
