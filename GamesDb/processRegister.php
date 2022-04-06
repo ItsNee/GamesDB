@@ -59,7 +59,7 @@ if (!empty($_POST['g-recaptcha-response'])) {
 //Check extension
             $isAdmin = 0;
             $isActivated = 0;
-            $target_file = "lmao";
+            $target_file = "uploads/defaultpfp.jpg";
             $query = $conn->prepare("INSERT INTO users VALUES (?,?,?,?,?,?,?)"); //prepared statement
             $query->bind_param("sssssii", $username, $email, $hash, $secret, $target_file, $isAdmin, $isActivated); //bind the parameters
 //$query->execute();
