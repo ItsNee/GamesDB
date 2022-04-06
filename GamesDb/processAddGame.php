@@ -268,6 +268,10 @@ include "db.inc.php";
                                     if ($result->num_rows > 0) {
                                         $row = $result->fetch_assoc();
                                         $appID = $row["appid"] + 1;
+                                    } 
+                                    // If database is empty
+                                    else {
+                                        $appID = 1;
                                     }
 
                                     $stmt = $conn->prepare("INSERT INTO games (appid, name, developer, positiveVotes, negativeVotes, price, gameImage, gameGenre, gameInfo) VALUES (?,?,?,?,?,?,?,?,?)");
