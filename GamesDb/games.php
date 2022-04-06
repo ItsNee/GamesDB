@@ -36,7 +36,7 @@
                                     </select>
                                 </div>
                                 <div id="searchGames">
-                                    <div class="gameSearch form-outline">
+                                    <div class="form-outline">
                                         <input type="search" name="searchTerm" class="form-control" placeholder="Search for games here!"/>                                        
                                     </div>        
                                     <button id="submitBtn" type="submit" name="searchQuery" class="btn btn-primary">

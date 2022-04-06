@@ -3,6 +3,14 @@
     <?php
     include "head.inc.php";
     ?>
+    <style>
+        .cart-price{
+            padding-top:.5rem;
+        }
+        .update-button{
+            margin-top: .5em;
+        }
+    </style>
     <body id="page-top">
         <?php
         include "navPostLogin.inc.php";
