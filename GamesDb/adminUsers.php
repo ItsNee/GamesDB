@@ -238,7 +238,7 @@ if (isset($_POST['adminUpdateAccount'])) {
                                 <ol class="breadcrumb ms-auto">
                                     <li><a href="admin.php" class="fw-normal">Dashboard</a></li>
                                 </ol>
-                                <a href="https://gamesdb.fun/" target="_blank"
+                                <a href="https://gamesdb.fun/"
                                    class="btn btn-danger  d-none d-md-block pull-right ms-3 hidden-xs hidden-sm waves-effect waves-light text-white">Back to GamesDB</a>
                             </div>
                         </div>
