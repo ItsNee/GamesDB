@@ -16,8 +16,11 @@ if (!empty($_POST['g-recaptcha-response'])) {
         $username = $_POST['username'];
         $password = $_POST['password'];
         $email = mysqli_real_escape_string($conn, $email); //escape strings
+        $email = htmlspecialchars($email);
         $password = mysqli_real_escape_string($conn, $password); //escape strings
+        $password = htmlspecialchars($password);
         $f2acode = mysqli_real_escape_string($conn, $_POST['2fa']); //escape strings
+        $f2acode = htmlspecialchars($f2acode);
 //query the DB
         $query = "select * from users where username='$username'";
         $result = mysqli_query($conn, $query);
