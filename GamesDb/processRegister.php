@@ -12,13 +12,19 @@ if (!empty($_POST['g-recaptcha-response'])) {
 
         $inputSuccess = true; //specify a variable which will initially be true, and set to false if the input fails the validation checks
         $username = $_POST['username'];
+        $username = mysqli_real_escape_string($conn, $username); //escape strings
+        $username = htmlspecialchars($username);
+        echo $username;
         if (!preg_match("/^[a-zA-Z0-9]{1,255}$/", $username)) { //this regex will validate if the username only has alphanumeric chars
+            echo "<script type='text/javascript'>alert('ERROR. USERNAME.');</script>";
             $error = base64_encode("Check your username format and try again. It should only contain alphanumeric characters");
             header("location: 404.php?error=" . $error);
             //set the following the false so that the user inputs will not be added to database should it not meet the formatting requirements.
             $inputSuccess = false;
         }
         $email = $_POST['email'];
+        $email = mysqli_real_escape_string($conn, $email); //escape strings
+        $email = htmlspecialchars($email);
         if (!preg_match("/[a-zA-Z0-9_\-]+@([a-zA-Z_\-])+[.]+[a-zA-Z]{2,4}/", $email)) { //this regex will validate if the user email matches the format of an email i.e example@email.com
             echo "<script type='text/javascript'>alert('ERROR. Check your email format and try again');</script>";
             $error = base64_encode("Check your email format and try again");
@@ -26,12 +32,16 @@ if (!empty($_POST['g-recaptcha-response'])) {
             $inputSuccess = false;
         }
         $password = $_POST['password'];
+        $password = mysqli_real_escape_string($conn, $password); //escape strings
+        $password = htmlspecialchars($password);
         if (!preg_match("/[a-zA-Z0-9!@#$ ]{8,255}/", $password)) { //this regex will validate if the user password contains at least 8 chars, and only contains alphanumeric chars, spaces and some symbols
             $error = base64_encode("Passwords must be of minimum length 8 characters. We only accept alphanumeric characters, spaces and select symbols: @,# and $.");
             header("location: 404.php?error=" . $error);
             $inputSuccess = false;
         }
         $confirmPassword = $_POST['confirmPassword'];
+        $confirmPassword = mysqli_real_escape_string($conn, $confirmPassword); //escape strings
+        $confirmPassword = htmlspecialchars($confirmPassword);
         if (!preg_match("/[a-zA-Z0-9!@#$ ]{8,255}/", $password)) { //this regex will validate if the user password contains at least 8 chars, and only contains alphanumeric chars, spaces and some symbols
             $error = base64_encode("Passwords must be of minimum length 8 characters. We only accept alphanumeric characters, spaces and select symbols: @,# and $.");
             header("location: 404.php?error=" . $error);
@@ -51,74 +61,76 @@ if (!empty($_POST['g-recaptcha-response'])) {
 //----------------------------------------------------------------------------------------------------------------------------------------
             if ($password == $confirmPassword) {
                 $hash = password_hash($password, PASSWORD_BCRYPT);
-            }else{
-                $error = base64_encode("Passwords do not match!");
-                header("location: 404.php?error=" . $error);
-            }
 
-            session_start();
-            $_SESSION['email'] = $email;
-            $_SESSION['username'] = $username;
+                session_start();
+                $_SESSION['email'] = $email;
+                $_SESSION['username'] = $username;
 //Check extension
-            $isAdmin = 0;
-            $isActivated = 0;
-            $target_file = "uploads/defaultpfp.jpg";
-            $query = $conn->prepare("INSERT INTO users VALUES (?,?,?,?,?,?,?)"); //prepared statement
-            $query->bind_param("sssssii", $username, $email, $hash, $secret, $target_file, $isAdmin, $isActivated); //bind the parameters
+                $isAdmin = 0;
+                $isActivated = 0;
+                $target_file = "uploads/defaultpfp.jpg";
+                $query = $conn->prepare("INSERT INTO users VALUES (?,?,?,?,?,?,?)"); //prepared statement
+                $query->bind_param("sssssii", $username, $email, $hash, $secret, $target_file, $isAdmin, $isActivated); //bind the parameters
 //$query->execute();
-            if (!$query->execute()) {
-                $errorMsg = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
-                $success = false;
-                echo $errorMsg;
-                $error = base64_encode("Sorry, there is already an account with this username/email.");
-                header("location: 404.php?error=" . $error);
-            } else {
-                $statusMsg = '';
+                if (!$query->execute()) {
+                    $errorMsg = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+                    $success = false;
+                    echo $errorMsg;
+                    $error = base64_encode("Sorry, there is already an account with this username/email.");
+                    session_destroy();
+                    header("location: 404.php?error=" . $error);
+                } else {
+                    $statusMsg = '';
 
 // File upload path
-                $targetDir = "uploads/";
-                $fileName = basename($_FILES["file"]["name"]);
-                $targetFilePath = $targetDir . $fileName;
-                $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
+                    $targetDir = "uploads/";
+                    $fileName = basename($_FILES["file"]["name"]);
+                    $targetFilePath = $targetDir . $fileName;
+                    $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
 
-                if (!empty($_FILES["file"]["name"])) {
-                    // Allow certain file formats
-                    $allowTypes = array('jpg', 'png', 'jpeg', 'gif', 'pdf');
-                    if (in_array($fileType, $allowTypes)) {
-                        // Upload file to server
-                        if (move_uploaded_file($_FILES["file"]["tmp_name"], $targetFilePath)) {
-                            // Insert image file name into database
-                            echo $targetFilePath;
-                            $query = $conn->prepare("UPDATE users SET profilePic=? WHERE username=?"); //prepared statement
-                            $query->bind_param("ss", $targetFilePath, $_SESSION['username']); //bind the parameters
-                            //$query->execute();
+                    if (!empty($_FILES["file"]["name"])) {
+                        // Allow certain file formats
+                        $allowTypes = array('jpg', 'png', 'jpeg', 'gif', 'pdf');
+                        if (in_array($fileType, $allowTypes)) {
+                            // Upload file to server
+                            if (move_uploaded_file($_FILES["file"]["tmp_name"], $targetFilePath)) {
+                                // Insert image file name into database
+                                echo $targetFilePath;
+                                $query = $conn->prepare("UPDATE users SET profilePic=? WHERE username=?"); //prepared statement
+                                $query->bind_param("ss", $targetFilePath, $_SESSION['username']); //bind the parameters
+                                //$query->execute();
 //            session_start();
 //            $_SESSION['email'] = $email1;
 //            $_SESSION['username'] = $username;
-                            if (!$query->execute()) {
-                                $errorMsg = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
-                                $success = false;
-                                echo $errorMsg;
-                                $error = base64_encode("File upload failed, please try again.");
+                                if (!$query->execute()) {
+                                    $errorMsg = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+                                    $success = false;
+                                    echo $errorMsg;
+                                    $error = base64_encode("File upload failed, please try again.");
+                                    header("location: 404.php?error=" . $error);
+                                }
+                            } else {
+                                $error = base64_encode("Sorry, there was an error uploading your file.");
                                 header("location: 404.php?error=" . $error);
                             }
                         } else {
-                            $error = base64_encode("Sorry, there was an error uploading your file.");
+                            $error = base64_encode("Sorry, only JPG, JPEG, PNG, GIF, & PDF files are allowed to upload.");
                             header("location: 404.php?error=" . $error);
                         }
                     } else {
-                        $error = base64_encode("Sorry, only JPG, JPEG, PNG, GIF, & PDF files are allowed to upload.");
+                        $error = base64_encode("Please select a file to upload.");
                         header("location: 404.php?error=" . $error);
                     }
-                } else {
-                    $error = base64_encode("Please select a file to upload.");
-                    header("location: 404.php?error=" . $error);
+                    header("location: sendEmail.php");
                 }
-                header("location: sendEmail.php");
+            } else {
+                $error = base64_encode("Passwords do not match!");
+                header("location: 404.php?error=" . $error);
             }
-        } else {
-            header("location: index.php");
-        }
+        } 
+//        else {
+//            header("location: index.php");
+//        }
     } else {
         $error = base64_encode("Some error in vrifying g-recaptcha!");
         header("location: 404.php?error=" . $error);
