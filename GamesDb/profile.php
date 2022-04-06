@@ -79,7 +79,8 @@
                     } else {
                         $success = true;
                         $error = base64_encode("Password Has been successfully changed!");
-                        header("location: 404.php?error=" . $error);
+//                        header("location: 404.php?error=" . $error);
+                        header("location: processSignOut.php");
                     }
                 }
             } else {
