@@ -34,7 +34,7 @@ require 'PHPMailer-master/src/Exception.php';
         //check if credit card valid if valid
         if ($CCchecker == 1 && $ExpiryChecker == 1 && $CvcChecker == 1) {
             $result2 = getCart($username, $conn);
-            $coder = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"><table class="table"><thead><tr><th scope="col">#</th><th scope="col">Game Name</th><th scope="col">Price</th></tr></thead><tbody>';
+            $coder = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"><table class="table"><thead><tr><th scope="col">#</th><th scope="col">Game Name</th><th scope="col">Price</th><th scope="col">Code</th></tr></thead><tbody>';
             $counter = 1;
             if ($result2->num_rows > 0) {
                 $query = "SELECT * FROM cart WHERE username='$username'";
