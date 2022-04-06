@@ -22,6 +22,9 @@
             </div>
         </header>
         
+        <!--function to check unique app id for modal cos need unique attr for it/cannot put in while loop-->
+       
+        
         <?php
         displayFavourites();
 
@@ -58,10 +61,64 @@
                     echo '</div>';
                     echo '<!--Product actions-->';
                     echo '<div class = "card-footer p-4 pt-0 border-top-0 bg-transparent">';
-                    echo '<form id="removeFavForm" name="removeFavForm" action="removeFavourites.php" method="POST" enctype="multipart/form-data">';
-                    echo '<input type="hidden" name="appId" value="' . $appId . '" />';
-                    echo '<div class = "text-center"><button class = "btn btn-outline-primary mt-auto" name="removeFav" type="submit">Remove</button></div>';
-                    echo '</form>';
+                    //echo '<form id="removeFavForm" name="removeFavForm" action="removeFavourites.php" method="POST" enctype="multipart/form-data">';
+                    //echo '<input type="hidden" name="appId" value="' . $appId . '" />';
+                    //echo '<div class = "text-center"><button class = "btn btn-outline-primary mt-auto" name="removeFav" type="submit">Remove</button></div>';
+                    //echo '</form>';
+                    
+                    //remove button
+                    echo '<div class = "text-center"><button type="button" class="btn btn-outline-primary mt-auto" data-bs-toggle="modal" data-bs-target="#removeFavModal" data-bs-appid="' . $appId . '" data-bs-gamename = "' . $name . '">Remove</button></div>';
+                    //modal
+                    echo '<div class="modal fade" id="removeFavModal" tabindex="-1" aria-labelledby="removeFavModalLabel" aria-hidden="true">';
+                      echo '<div class="modal-dialog">';
+                        echo '<div class="modal-content">';
+                          echo '<div class="modal-header">';
+                            echo '<h5 class="modal-title" id="removeFavModalLabel">Remove</h5>';
+                            echo '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
+                          echo '</div>';
+                          echo '<div class="modal-body">';
+                          echo 'Are you sure you want to remove this game from Favourites?';
+                          echo '</div>';
+                          echo '<div class="modal-footer">';
+                            echo '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>';
+                           
+                            echo '<form id="remFavForm" name="remFavForm" action="removeFavourites.php" method="POST" enctype="multipart/form-data">';
+                            echo '<input type="hidden" class="form-control" name="appId" id="appid-name" value="appid-name" />';
+                            echo '<button type="submit" class="btn btn-primary"">Confirm</button>';
+                            echo '</form>';
+                    
+                          echo '</div>';
+                        echo '</div>';
+                      echo '</div>';
+                    echo '</div>';
+                    
+                    //additional function needed to show modal as need to retrieve unique appids 
+                    echo"<script language='javascript'>
+                        
+                    var removeFavModal = document.getElementById('removeFavModal')
+                    removeFavModal.addEventListener('show.bs.modal', function (event) {
+                    
+                      // Button that triggered the modal
+                      var button = event.relatedTarget
+                      
+                      // Extract info from data-bs-* attributes
+                      var appid = button.getAttribute('data-bs-appid')
+                      var gamename = button.getAttribute('data-bs-gamename')
+                      
+                      // Update the modal's content.
+                      var modalTitle = removeFavModal.querySelector('.modal-title')
+                      var modalBodyFooter = removeFavModal.querySelector('.modal-footer input')
+
+                      modalTitle.textContent = 'Remove ' + gamename + ' from Favourites'
+                      modalBodyFooter.value = appid
+                    })
+                    </script>
+                    ";
+                    
+                    echo '<div style="padding: 0.5rem" class="text-center">';
+                    echo '<a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>';
+                    echo '</div>';
+                    
                     echo '</div>';
                     echo '</div>';
                     echo '</div>';
