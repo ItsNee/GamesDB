@@ -28,6 +28,7 @@
                     header("location: 404.php?error=" . $error);
                 } else {
                     $success = true;
+                    header("location: processSignOut.php");
                 }
             }
         } elseif (isset($_POST['editPassword'])) {
@@ -63,6 +64,9 @@
                 } else {
                     if ($newPassword == $confirmNewPassword) {
                         $hash = password_hash($newPassword, PASSWORD_BCRYPT);
+                    } else {
+                        $error = base64_encode("Passwords do not match!");
+                        header("location: 404.php?error=" . $error);
                     }
                     $query = $conn->prepare("UPDATE users SET password=? WHERE username=?"); //prepared statement
                     $query->bind_param("ss", $hash, $_SESSION['username']); //bind the parameters
@@ -74,8 +78,13 @@
                         header("location: 404.php?error=" . $error);
                     } else {
                         $success = true;
+                        $error = base64_encode("Password Has been successfully changed!");
+                        header("location: 404.php?error=" . $error);
                     }
                 }
+            } else {
+                $error = base64_encode("Wrong current password!");
+                header("location: 404.php?error=" . $error);
             }
         } elseif (isset($_POST['deleteAccount'])) {
             $query = "DELETE from users where username='$username'";
@@ -93,7 +102,7 @@
                             <div class="card-header">Profile Picture</div>
                             <div class="card-body text-center">
                                 <!-- Profile picture image-->
-                                <img class="img-account-profile rounded-circle mb-2" width="50%" height="50%" src="<?php print_r($profilePic) ?>" alt="">
+                                <img class="img-account-profile rounded-circle mb-2" width="50%" src="<?php print_r($profilePic) ?>" alt="">
                                 <!--                                 Profile picture help block
                                                                 <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
                                                                  Profile picture upload button
