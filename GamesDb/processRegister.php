@@ -43,15 +43,32 @@ if (!empty($_POST['g-recaptcha-response'])) {
             $email = mysqli_real_escape_string($conn, $email); //escape strings
             $password = mysqli_real_escape_string($conn, $password); //escape strings
             $confirmPassword = mysqli_real_escape_string($conn, $confirmPassword); //escape strings
-//----------------------------------------------------------------------------------------------------------------------------------------
+            
+            
+            $query = "SELECT * FROM users WHERE username = '$username'";
+            $result = mysqli_query($conn, $query);
+            if ($result->num_rows > 0) {
+                // output data of each row
+                $error = base64_encode("A User with this username/email already exists!");
+                header("location: 404.php?error=" . $error);
+            }
+            $query = "SELECT * FROM users WHERE email = '$email'";
+            $result = mysqli_query($conn, $query);
+            if ($result->num_rows > 0) {
+                // output data of each row
+                $error = base64_encode("A User with this username/email already exists!");
+                header("location: 404.php?error=" . $error);
+            }
 
             $Authenticator = new Authenticator();
             $secret = $Authenticator->generateRandomSecret();
             echo $secret;
-//----------------------------------------------------------------------------------------------------------------------------------------
+
             if ($password == $confirmPassword) {
                 $hash = password_hash($password, PASSWORD_BCRYPT);
             }
+
+
 
             session_start();
             $_SESSION['email'] = $email;
