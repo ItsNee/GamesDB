@@ -11587,7 +11587,7 @@ footer a:hover, footer a:active, footer a:focus {
 @media (min-width: 576px) {
     .masthead .masthead-device-mockup .circle {
         width: 70%;
-        display: block;
+
     }
     .masthead .masthead-device-mockup .device-wrapper {
         max-width: 12.5rem;
@@ -11604,6 +11604,7 @@ footer a:hover, footer a:active, footer a:focus {
 @media (min-width: 992px) {
     .masthead .masthead-device-mockup .circle {
         width: 90%;
+        display: block;
     }
     .masthead .masthead-device-mockup .device-wrapper {
         max-width: 15rem;
@@ -11626,11 +11627,14 @@ footer a:hover, footer a:active, footer a:focus {
     }
 }
 
-.floatAboveEverything {
+.floatAboveEverything1 {
     z-index: 1000;
     position: absolute;
 }
-
+.floatAboveEverything2 {
+    z-index: 1000;
+    position: flex;
+}
 
 /*games.php css*/
 #filterGamesForm {
@@ -11661,7 +11665,7 @@ footer a:hover, footer a:active, footer a:focus {
     justify-content: flex-end !important;
 }
 
-@media screen and (max-width: 990px){
+@media screen and (max-width: 992px){
     #filterGames {
         position: relative;
         display: flex;
@@ -11679,6 +11683,15 @@ footer a:hover, footer a:active, footer a:focus {
         width: 100%;
         justify-content: flex-end;
     }
+
+    h1.display-1.lh-1.mb-3.mast-text {
+        padding-top: 2rem;
+    }
+
+    .floatAboveEverything1 {
+        display:none;
+    }
+
 }
 
 @media screen and (max-width: 535px){
@@ -11846,6 +11859,24 @@ paypal-button-title {
 }
 .card-other-option{
     margin-bottom: 1rem;
+}
+
+.g-recaptcha{
+    padding-bottom: 1rem;
+}
+.orderDate{
+    padding-bottom: .5rem;
+}
+
+.gameSearch.form-outline {
+    padding-right: 1rem;
+}
+
+.cart-price{
+    padding-top:.5rem;
+}
+.update-button{
+    margin-top: .5em;
 }
 
 /*to show each game one by one in this viewport*/
