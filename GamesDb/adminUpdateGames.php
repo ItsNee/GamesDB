@@ -1,4 +1,5 @@
 <?php
+// Session Management 
 session_start();
 if ($_SESSION['isAdmin'] == "1") {
     $l = 1;
@@ -216,15 +217,15 @@ include "db.inc.php";
                             <div class="white-box">
                                 <div class="d-md-flex mb-3">
                                     <h3 class="box-title mb-0">Games Table</h3>
-<!--                                    <div class="col-md-3 col-sm-4 col-xs-6 ms-auto">
-                                        <select class="form-select shadow-none row border-top">
-                                            <option>March 2021</option>
-                                            <option>April 2021</option>
-                                            <option>May 2021</option>
-                                            <option>June 2021</option>
-                                            <option>July 2021</option>
-                                        </select>
-                                    </div>-->
+                                    <!--                                    <div class="col-md-3 col-sm-4 col-xs-6 ms-auto">
+                                                                            <select class="form-select shadow-none row border-top">
+                                                                                <option>March 2021</option>
+                                                                                <option>April 2021</option>
+                                                                                <option>May 2021</option>
+                                                                                <option>June 2021</option>
+                                                                                <option>July 2021</option>
+                                                                            </select>
+                                                                        </div>-->
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table no-wrap">
@@ -239,6 +240,9 @@ include "db.inc.php";
                                                 <th class="border-top-0">Delete</th>
                                             </tr>
                                         </thead>
+                                        <!-- ============================================================== -->
+                                        <!-- Start of List of Games that can be updated or deleted -->
+                                        <!-- ============================================================== -->
                                         <tbody>
                                             <?php
                                             $query = "SELECT * FROM games";
@@ -255,7 +259,7 @@ include "db.inc.php";
                                                     $gameImage = $row["gameImage"];
                                                     ?>
                                                     <tr>
-                                                        <td><?php echo $appId;  ?></td>
+                                                        <td><?php echo $appId; ?></td>
                                                         <td class="txt-oflo"><input class="form-control" id="inputUsername" type="text" value="<?php echo $name; ?>" readonly></td>
                                                         <td class="txt-oflo"><input class="form-control" id="inputUsername" type="text" value="<?php echo $developer; ?>" readonly></td>
                                                         <td class="txt-oflo"><input class="form-control" id="inputUsername" type="text"  value="<?php echo $gameGenre; ?>" readonly></td>
@@ -268,15 +272,18 @@ include "db.inc.php";
                                                     <input type="hidden" name="appId" value="<?php echo $appId; ?>" />
                                                     <td> <button class="btn btn-outline-danger" name="adminUpdateAccount" type="submit">Delete</button></td>
                                                 </form>
-                                                    </tr>
-                                                    <?php
-                                                }
-                                            } else {
-                                                echo "0 results";
-                                                //header('Location: ../cdenoexst');
+                                                </tr>
+                                                <?php
                                             }
-                                            ?>
-                                            </tbody>
+                                        } else {
+                                            echo "0 results";
+                                            //header('Location: ../cdenoexst');
+                                        }
+                                        ?>
+                                        </tbody>
+                                        <!-- ============================================================== -->
+                                        <!-- End of List of Games that can be updated or deleted -->
+                                        <!-- ============================================================== -->
                                     </table>
                                 </div>
                             </div>

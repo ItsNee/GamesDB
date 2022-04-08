@@ -1,4 +1,5 @@
 <?php
+// Session Management
 session_start();
 if ($_SESSION['isAdmin'] == "1") {
     $l = 1;
@@ -177,7 +178,8 @@ include "db.inc.php";
 
                                                 $success = true;
                                                 $errorMsg = "";
-
+                                                
+                                                // Check for invalid characters
                                                 function specialChar($data) {
                                                     global $success, $errorMsg;
 
@@ -190,7 +192,8 @@ include "db.inc.php";
                                                         return $data;
                                                     }
                                                 }
-
+                                                
+                                                // Getting post request parameters
                                                 $appID = specialChar($_POST['appId']);
                                                 $gameName = specialChar($_POST['gameName']);
                                                 $developer = specialChar($_POST['developer']);
@@ -198,12 +201,14 @@ include "db.inc.php";
                                                 $price = specialChar($_POST['price']);
                                                 $gameInfo = specialChar($_POST['gameInfo']);
                                                 specialChar($_POST['image']);
-
+                                                
+                                                // Check if empty
                                                 if (empty($appID) || empty($gameName) || empty($developer) || empty($genre) || empty($_POST['image'])) {
                                                     $errorMsg .= "Fill up the required fields (e.g. Name, Developer, Genre)<br>";
                                                     $success = false;
                                                 }
-
+                                                
+                                                // If price is empty, set to 0 (Free to Play)
                                                 if (empty($price)) {
                                                     $price = "0";
                                                 }
@@ -217,6 +222,7 @@ include "db.inc.php";
                                                 // If upload image URL
                                                 if ($_POST['image'] == 1) {
                                                     $gameImage = specialChar($_POST['gameImage1']);
+                                                    // If image not uploaded, set as default image
                                                     if (empty($gameImage)) {
                                                         $target_dir = "uploads/";
                                                         $filename = "default.JPG";
@@ -248,7 +254,9 @@ include "db.inc.php";
                                                             $success = false;
                                                             $errorMsg .= "Only JPG, JPEG, PNG & GIF files are allowed to upload as the game image.<br>";
                                                         }
-                                                    } else {
+                                                    } 
+                                                    // If image not uploaded, set as default image
+                                                    else {
                                                         $target_dir = "uploads/";
                                                         $filename = "default.JPG";
                                                         $imagePath = $target_dir . $filename;

@@ -1,4 +1,5 @@
 <?php
+// Session Management
 session_start();
 if ($_SESSION['isAdmin'] == "1") {
     $l = 1;
@@ -176,7 +177,8 @@ include "db.inc.php";
 
                                 $success = true;
                                 $errorMsg = "";
-
+                                
+                                // Check for invalid characters
                                 function specialChar($data) {
                                     global $success, $errorMsg;
                                     $signs = "/([<>])/";
@@ -189,7 +191,8 @@ include "db.inc.php";
                                         return $data;
                                     }
                                 }
-
+                                
+                                // Getting post request parameters
                                 $gameName = specialChar($_POST['gameName']);
                                 $developer = specialChar($_POST['developer']);
                                 $price = specialChar($_POST['price']);
@@ -199,12 +202,14 @@ include "db.inc.php";
                                 $negativeVotes = "0";
                                 $gameInfo = specialChar($_POST['gameInfo']);
                                 $gameImage = specialChar($_POST['gameImage']);
-
+                                
+                                // Check if empty
                                 if (empty($gameName) || empty($developer) || empty($gameGenre)  || empty($_POST['image'])) {
                                     $errorMsg .= "Fill up the required fields (e.g. Name, Developer, Genre)<br>";
                                     $success = false;
                                 }
-
+                                
+                                // If price is empty, set to 0 (Free to Play)
                                 if (empty($price)) {
                                     $price = "0";
                                 }
@@ -218,6 +223,7 @@ include "db.inc.php";
                                 // If upload image URL
                                 if ($_POST['image'] == 1) {
                                     $gameImage = specialChar($_POST['gameImage1']);
+                                    // If image not uploaded, set as default image
                                     if (empty($gameImage)) {
                                         $target_dir = "uploads/";
                                         $filename = "default.JPG";
@@ -249,7 +255,9 @@ include "db.inc.php";
                                             $success = false;
                                             $errorMsg .= "Only JPG, JPEG, PNG & GIF files are allowed to upload as the game image.<br>";
                                         }
-                                    } else {
+                                    }  
+                                    // If image not uploaded, set as default image
+                                    else {
                                         $target_dir = "uploads/";
                                         $filename = "default.JPG";
                                         $imagePath = $target_dir . $filename;
@@ -260,7 +268,7 @@ include "db.inc.php";
                                     $success = false;
                                 }
 
-
+                                // Getting largest appID from Games table to increment by 1 can use it as the appID of added game
                                 if ($success) {
                                     $stmt = $conn->prepare("SELECT appid from games ORDER BY appid DESC LIMIT 1;");
                                     $stmt->execute();

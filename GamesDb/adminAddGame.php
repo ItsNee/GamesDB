@@ -1,4 +1,5 @@
 <?php
+// Session Management
 session_start();
 if ($_SESSION['isAdmin'] == "1") {
     $l = 1;
@@ -178,7 +179,9 @@ include "db.inc.php";
                                     <table class="table no-wrap">
                                         <tbody>
 
-
+                                            <!-- ============================================================== -->
+                                            <!-- Start of Add Game Form -->
+                                            <!-- ============================================================== -->
                                         <form id="signInForm" action="processAddGame.php" method="POST" enctype="multipart/form-data">
                                             <tr>Game Name:*</tr>
                                             <div class="form-floating mb-3">
@@ -189,7 +192,8 @@ include "db.inc.php";
                                             <div class="form-floating mb-3">
                                                 <tr><input class="form-control" name="developer" id="developer" type="text" placeholder="Enter Game Developer" required /></tr>
                                             </div>
-
+ 
+                                            <!-- Price at least 0 -->
                                             <tr>Price:*</tr>
                                             <div class="form-floating mb-3">
                                                 <tr><input class="form-control" name="price" id="price" min = '0' step='0.01' value='0.00' type="number" placeholder="Enter Game Price"/></tr>
@@ -204,7 +208,8 @@ include "db.inc.php";
                                             <div class="form-floating mb-3">
                                                 <tr><input class="form-control" name="gameInfo" id="gameInfo" type="text" placeholder="Enter Game Info" /></tr>
                                             </div> 
-
+                                            
+                                            <!-- Uploading Image, via URL or upload image file to backend -->
                                             <tr>Game Image: (If no image, leave blank and check any of the buttons)</tr><br> 
                                             <tr>From URL<input type="radio" name="image" id="url" value="1" required/></tr>
                                             <tr><input class="form-control" name="gameImage1" id="gameImage1" type="text" placeholder="Update Game Image" 
@@ -214,6 +219,9 @@ include "db.inc.php";
 
                                             <div class = "text-center"><button class = "btn btn-outline-secondary mt-auto" type="submit">Add Game</button></div>
                                         </form>
+                                        <!-- ============================================================== -->
+                                        <!-- End Add Game Form -->
+                                        <!-- ============================================================== -->
                                         </tbody>
                                     </table>
                                 </div>

@@ -1,4 +1,5 @@
 <?php
+// Session Management
 session_start();
 if ($_SESSION['isAdmin'] == "1") {
     $l = 1;
@@ -176,7 +177,8 @@ include "db.inc.php";
 
                                 $success = True;
                                 $errorMsg = "";
-
+                                
+                                // Check for invalid characters
                                 function specialChar($data) {
                                     global $success, $errorMsg;
 
@@ -189,12 +191,15 @@ include "db.inc.php";
                                         return $data;
                                     }
                                 }
-
+                                
+                                // Getting post request parameters
                                 $appID = specialChar($_POST['appId']);
-
+                                
+                                // Check if empty
                                 if (empty($appID)) {
                                     $success = false;
                                 }
+                                
                                 if ($success) {
                                     $stmt = $conn->prepare("DELETE FROM games WHERE appid=?");
                                     $stmt->bind_param("i", $appID);
