@@ -6,7 +6,4 @@ A full fledged PHP-based Ecommerce web aplication I worked on with a team of 3 o
 
 ![Games Page](https://github.com/ItsNee/GamesDB/blob/main/games.png?raw=true)
 
-![Profile Page](https://github.com/ItsNee/GamesDB/blob/main/profile.png?raw=true)
-
-
 -Nee
